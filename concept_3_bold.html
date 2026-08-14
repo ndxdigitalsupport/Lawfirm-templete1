@@ -52,25 +52,28 @@
         .btn-primary:hover { background-color: var(--accent); color: var(--bg-dark); box-shadow: 0 0 30px var(--glow); text-shadow: none;}
 
         /* Sections */
+        .hard-cut-divider { width: 100%; height: 10px; background-color: var(--accent); position: relative; z-index: 10;}
         .section-wrap { padding: 120px 8%; }
         .section-title { font-size: clamp(40px, 6vw, 65px); margin-bottom: 60px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center;}
         
-        /* About Us - Solid Red Cut */
-        .about-cinematic { position: relative; min-height: 60vh; display: flex; align-items: center; padding: 120px 8%; overflow: hidden; background: var(--accent);}
+        /* About Us - Cinematic Widescreen */
+        .about-cinematic { position: relative; min-height: 80vh; display: flex; align-items: flex-end; padding: 120px 8%; overflow: hidden;}
+        .about-widescreen-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1575505586569-646b2ca898fc?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: center; z-index: 1; filter: grayscale(80%) contrast(1.1);}
+        .about-gradient-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, var(--bg-dark) 10%, rgba(5,5,5,0.8) 40%, transparent 100%); z-index: 2;}
         
-        .about-content-overlay { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 60px;}
+        .about-content-overlay { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; gap: 60px;}
         .about-text-wrap { max-width: 800px; flex: 2;}
-        .about-text-wrap h2 { font-size: clamp(40px, 6vw, 80px); color: var(--bg-dark); margin-bottom: 30px; line-height: 1; border-left: 6px solid var(--bg-dark); padding-left: 20px;}
-        .about-text-content { font-size: 18px; line-height: 1.8; color: #FFF; font-family: 'Space Grotesk', sans-serif; font-weight: 500;}
-        .about-text-content p { margin-bottom: 20px; }
+        .about-text-wrap h2 { font-size: clamp(40px, 6vw, 80px); color: var(--accent); margin-bottom: 30px; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.8); border-left: 4px solid var(--accent); padding-left: 20px;}
+        .about-text-content { font-size: 18px; line-height: 1.8; color: #CCC; font-family: 'Space Grotesk', sans-serif;}
+        .about-text-content p { margin-bottom: 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.8);}
         
-        .about-stats-widescreen { flex: 1; text-align: center; min-width: 250px; background: var(--bg-dark); padding: 50px 30px; border: 1px solid rgba(255,255,255,0.1); box-shadow: -15px 15px 0 rgba(0,0,0,0.4);}
-        .stat-number { font-size: clamp(60px, 8vw, 120px); font-family: 'Rajdhani', sans-serif; color: white; line-height: 0.9; margin-bottom: 10px; font-weight: 700; text-shadow: 0 5px 15px rgba(229,9,20,0.5);}
-        .stat-label { font-size: 16px; font-weight: bold; color: var(--accent); letter-spacing: 3px; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;}
+        .about-stats-widescreen { flex: 1; text-align: right; min-width: 200px;}
+        .stat-number { font-size: clamp(80px, 10vw, 150px); font-family: 'Rajdhani', sans-serif; color: transparent; -webkit-text-stroke: 2px var(--accent); line-height: 0.9; margin-bottom: 10px; font-weight: 700; text-shadow: 0 0 20px rgba(229,9,20,0.2);}
+        .stat-label { font-size: 16px; font-weight: bold; color: white; letter-spacing: 3px; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;}
 
         @media (max-width: 900px) {
             .about-content-overlay { flex-direction: column; align-items: flex-start; }
-            .about-stats-widescreen { width: 100%; margin-top: 30px; box-sizing: border-box; box-shadow: -10px 10px 0 rgba(0,0,0,0.4);}
+            .about-stats-widescreen { text-align: left; margin-top: 30px; border-top: 1px solid rgba(229,9,20,0.3); padding-top: 20px; width: 100%;}
         }
 
         /* Grids (Expertise) */
@@ -187,8 +190,12 @@
             <div class="slide-up" style="margin-top: 40px;"><a href="#contact" class="btn-primary">FREE CONSULTATION</a></div>
         </div>
     </header>
+    
+    <div class="hard-cut-divider"></div>
 
     <section id="about" class="about-cinematic">
+        <div class="about-widescreen-bg"></div>
+        <div class="about-gradient-overlay"></div>
         
         <div class="about-content-overlay slide-up">
             <div class="about-text-wrap">
