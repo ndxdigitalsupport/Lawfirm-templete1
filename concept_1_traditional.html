@@ -16,13 +16,31 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Navbar */
-        nav { background-color: rgba(10, 25, 47, 0.95); color: var(--text-light); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.1); backdrop-filter: blur(5px); }
-        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: var(--secondary-gold); text-transform: uppercase; text-decoration: none; }
+        nav { background-color: transparent; color: var(--text-light); padding: 40px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 1000; transition: all 0.4s ease; }
+        nav.nav-scrolled { background-color: rgba(10, 25, 47, 0.95); padding: 15px 8%; box-shadow: 0 4px 20px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--secondary-gold); text-decoration: none; letter-spacing: 2px;}
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: var(--text-light); text-decoration: none; margin: 0 15px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
         .nav-links a:hover { color: var(--secondary-gold); }
-        .btn-quote { background-color: var(--secondary-gold); color: var(--primary-navy) !important; padding: 12px 30px; font-weight: 700; border: 1px solid var(--secondary-gold); transition: 0.3s; }
-        .btn-quote:hover { background-color: transparent; color: var(--secondary-gold) !important; }
+        .btn-quote { 
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8222 100%); 
+            color: var(--primary-navy) !important;
+            padding: 12px 25px; 
+            border-radius: 2px; 
+            font-weight: 700; 
+            transition: all 0.3s ease; 
+            border: none; 
+            font-size: 13px; 
+            text-decoration: none !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.2);
+            display: inline-block;
+        }
+        .btn-quote:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(212,175,55,0.4);
+        }
         .menu-toggle { display: none; color: var(--secondary-gold); font-size: 24px; cursor: pointer; }
 
         .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-light); padding: 0 20px; overflow: hidden;
@@ -47,49 +65,131 @@
         .about-image { flex: 1; min-width: 300px; height: 400px; width: 100%; background: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=800') center/cover; background-attachment: fixed; border-radius: 4px; box-shadow: -20px 20px 0 var(--secondary-gold); }
         .about-text p { line-height: 1.8; color: #555; font-size: 16px; margin-bottom: 20px; text-align: justify; }
         
-        /* Grid Layouts (Expertise, Services) */
+        /* Grid Layouts Base */
         .grid-section { padding: 120px 8%; background-color: var(--bg-light); }
         .grid-section.alt { background-color: #FFF; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-top: 70px; }
-        .card { background: #FFF; padding: 50px 40px; border: 1px solid #F0F0F0; transition: all 0.4s ease; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(15, 26, 44, 0.08); border-color: var(--secondary-gold);}
-        .card i { font-size: 45px; color: var(--secondary-gold); margin-bottom: 25px;}
-        .card h3 { font-size: 24px; margin-bottom: 15px; letter-spacing: 1px;}
-        .card p { color: #666; font-size: 16px; line-height: 1.7;}
+
+        /* Split Screen Expertise */
+        .split-section { display: flex; flex-wrap: wrap; background: #FFF; padding: 0;}
+        .split-image-col { flex: 1; min-width: 300px; background: url('./assets/hero_traditional.png') center/cover; min-height: 500px; background-attachment: fixed;}
+        .split-content-col { flex: 1; min-width: 300px; padding: 100px 8%; background: var(--bg-light); display: flex; flex-direction: column; justify-content: center;}
+        .split-list { margin-top: 40px; }
+        .split-item { display: flex; gap: 25px; margin-bottom: 40px; }
+        .split-item i { font-size: 35px; color: var(--secondary-gold); margin-top: 5px;}
+        .split-item h3 { font-size: 22px; margin-bottom: 10px; letter-spacing: 1px;}
+        .split-item p { color: #555; font-size: 16px; line-height: 1.6; margin: 0;}
+
+        /* Minimalist Accordion Services (Clickable) */
+        .accordion-section { padding: 120px 8%; background-color: #FFF; max-width: 1000px; margin: 0 auto;}
+        .accordion { margin-top: 60px; border-top: 1px solid rgba(212,175,55,0.4);}
+        details.accordion-item { border-bottom: 1px solid rgba(212,175,55,0.4); padding: 25px 0; transition: 0.4s; position: relative; }
+        details.accordion-item::before { content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: rgba(212,175,55,0.02); opacity: 0; transition: 0.4s; z-index: 0; pointer-events: none;}
+        details.accordion-item:hover::before { opacity: 1; }
+        details.accordion-item:hover { border-bottom-color: rgba(212,175,55,0.8); padding-left: 10px; padding-right: 10px;}
+        
+        summary.accordion-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; position: relative; z-index: 1; list-style: none; }
+        summary.accordion-header::-webkit-details-marker { display: none; } /* Hide default triangle */
+        summary.accordion-header h3 { font-size: 28px; color: var(--primary-navy); transition: 0.3s; margin: 0;}
+        summary.accordion-header i { font-size: 20px; color: var(--secondary-gold); transition: 0.5s;}
+        
+        .accordion-content { padding-top: 20px; color: #555; line-height: 1.8; font-size: 17px; max-width: 800px; position: relative; z-index: 1; animation: fadeIn 0.4s ease;}
+        
+        details.accordion-item[open] summary.accordion-header h3 { color: var(--secondary-gold); }
+        details.accordion-item[open] summary.accordion-header i { transform: rotate(45deg); color: var(--primary-navy);}
 
         /* People */
-        .people-card { text-align: center; padding: 20px; transition: 0.3s;}
-        .people-card:hover { transform: translateY(-5px); }
-        .people-img { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid transparent; box-shadow: 0 0 0 2px var(--secondary-gold); padding: 5px; margin: 0 auto 25px auto; display: block; transition: 0.3s;}
-        .people-card:hover .people-img { padding: 0; border-color: var(--secondary-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.1);}
-        .people-card h3 { font-size: 26px; margin-bottom: 5px; letter-spacing: 1px;}
-        .people-card p { color: var(--secondary-gold); font-family: 'Playfair Display', serif; font-size: 19px; font-style: italic;}
+        .people-card { text-align: center; background: var(--bg-light); padding: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(212,175,55,0.2); transition: 0.4s; border-radius: 12px;}
+        .people-img-wrapper {
+            width: 100%; height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        .people-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s;}
+        .people-card:hover .people-img { transform: scale(1.05);}
+        
+        .people-info { background: var(--primary-navy); padding: 30px; text-align: center; border-top: 3px solid var(--secondary-gold);}
+        .people-card h3 { font-size: 24px; margin-bottom: 5px; letter-spacing: 1px; color: var(--text-light);}
+        .people-card p { color: var(--secondary-gold); font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; margin: 0;}
+
+        /* Wall of Love Testimonials (Marquee) */
+        .testimonials { padding: 120px 0; background: var(--primary-navy); color: var(--text-light); overflow: hidden; }
+        .testimonials .center-title { margin-bottom: 70px; }
+        .testimonials .section-title { color: var(--text-light); }
+        .test-marquee-wrapper { width: 100%; overflow: hidden; position: relative; display: flex; }
+        .test-marquee-wrapper::before, .test-marquee-wrapper::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 15%; z-index: 2; pointer-events: none;
+        }
+        .test-marquee-wrapper::before { left: 0; background: linear-gradient(to right, var(--primary-navy), transparent); }
+        .test-marquee-wrapper::after { right: 0; background: linear-gradient(to left, var(--primary-navy), transparent); }
+        
+        .test-marquee-content { display: flex; animation: scroll-test 40s linear infinite; gap: 40px; padding-left: 40px;}
+        .test-marquee-wrapper:hover .test-marquee-content { animation-play-state: paused; }
+        
+        .test-card { 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.1); padding: 50px; position: relative; 
+            width: 450px; flex-shrink: 0; border-radius: 12px; transition: 0.4s;
+        }
+        .test-card:hover { border-color: rgba(212,175,55,0.5); transform: translateY(-5px); background: rgba(255,255,255,0.06);}
+        .test-card::before { content: '\201C'; font-family: 'Playfair Display', serif; font-size: 100px; color: rgba(212,175,55,0.15); position: absolute; top: -10px; left: 20px; line-height: 1; transition: 0.4s;}
+        .test-card:hover::before { color: rgba(212,175,55,0.3); }
+        .test-quote { font-family: 'Playfair Display', serif; font-size: 20px; line-height: 1.7; font-style: italic; margin-bottom: 25px; position: relative; z-index: 1;}
+        .test-author { color: var(--secondary-gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;}
+        .test-role { color: #999; font-size: 13px; margin-top: 5px;}
+        /* Animations */
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-250px * 7)); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Reveal Animation Base */
+        .reveal { transform: translateY(40px); opacity: 0; transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { transform: translateY(0); opacity: 1; }
+        
+        /* Staggered Elements */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.3s; }
+        .stagger-3 { transition-delay: 0.5s; }
+        
+        /* Image Unveil Animation */
+        .unveil-wrapper { position: relative; }
+        .unveil-wrapper::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--secondary-gold); transform-origin: right; transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1); z-index: 2; border-radius: inherit;}
+        .reveal.active .unveil-wrapper::after, .reveal.active.unveil-wrapper::after { transform: scaleX(0); }
+        .unveil-wrapper img { opacity: 0; transition: opacity 0.1s; }
+        .reveal.active .unveil-wrapper img, .reveal.active.unveil-wrapper img { opacity: 1; transition-delay: 0.2s; }
+        
+        @keyframes scroll-test { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* Contact Section with Multi-step */
-        .contact { padding: 120px 8%; background-color: var(--primary-navy); color: white; text-align: center; }
-        .contact h2 { color: white; }
+        .contact { padding: 120px 8%; background-color: var(--bg-light); color: var(--text-dark); text-align: center; }
+        .contact h2 { color: var(--primary-navy); }
         .contact-grid { display: flex; justify-content: center; margin-top: 70px; gap: 80px; text-align: left; flex-wrap: wrap; align-items: center;}
         .contact-info, .contact-form-container { flex: 1; min-width: 300px; max-width: 600px;}
         
-        .contact-form-container { background: white; padding: 50px; border-top: 4px solid var(--secondary-gold); color: var(--text-dark); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3);}
-        .form-step { display: none; animation: fadeIn 0.6s ease; }
+        .contact-form-container { background: linear-gradient(135deg, #D4AF37 0%, #AA8222 100%); padding: 50px; border: none; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border-radius: 4px;}
+        .contact-form-container::after { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 1px solid rgba(10, 17, 40, 0.2); pointer-events: none; border-radius: 2px;}
+        .form-step { display: none; animation: fadeIn 0.6s ease; position: relative; z-index: 1;}
         .form-step.active { display: block; }
         
-        .form-title { font-size: 24px; color: var(--primary-navy); margin-bottom: 25px; font-family: 'Playfair Display', serif;}
-        .issue-btn { display: block; width: 100%; padding: 15px; margin-bottom: 15px; background: var(--bg-light); border: 1px solid #DDD; text-align: left; font-family: 'Lato', sans-serif; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .issue-btn:hover { border-color: var(--secondary-gold); background: rgba(212, 175, 55, 0.1); }
+        .form-title { font-size: 26px; color: var(--primary-navy); margin-bottom: 25px; font-family: 'Playfair Display', serif;}
+        .issue-btn { display: block; width: 100%; padding: 15px 20px; margin-bottom: 15px; background: rgba(255,255,255,0.9); border: 1px solid rgba(10, 17, 40, 0.2); text-align: left; font-family: 'Lato', sans-serif; font-size: 16px; cursor: pointer; transition: 0.3s; color: var(--primary-navy); font-weight: 600;}
+        .issue-btn:hover { border-color: var(--primary-navy); background: var(--primary-navy); color: var(--secondary-gold);}
         .step-nav { display: flex; justify-content: space-between; margin-top: 30px; }
-        .btn-form { background-color: var(--secondary-gold); color: var(--primary-navy); padding: 12px 30px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-form.outline { background: transparent; border: 1px solid #CCC; color: #666; }
-        .btn-form:hover { opacity: 0.8; }
+        .btn-form { background-color: var(--primary-navy); color: var(--secondary-gold); padding: 12px 30px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;}
+        .btn-form.outline { background: transparent; border: 1px solid var(--primary-navy); color: var(--primary-navy); }
+        .btn-form:hover { background-color: #050a1a; color: #FFF; border-color: #050a1a;}
         
-        .contact-form-container input, .contact-form-container textarea { width: 100%; padding: 15px; margin-bottom: 20px; background: var(--bg-light); border: 1px solid #DDD; font-family: 'Lato', sans-serif; box-sizing: border-box; }
+        .contact-form-container input, .contact-form-container textarea { width: 100%; padding: 15px; margin-bottom: 20px; background: rgba(255,255,255,0.9); border: 1px solid rgba(10, 17, 40, 0.2); font-family: 'Lato', sans-serif; box-sizing: border-box; color: var(--primary-navy);}
+        .contact-form-container input:focus, .contact-form-container textarea:focus { outline: none; border-color: var(--primary-navy); }
+        .contact-form-container input::placeholder, .contact-form-container textarea::placeholder { color: rgba(10,17,40,0.5); }
         
         .step-indicator { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: #DDD; }
         .dot.active { background: var(--secondary-gold); }
 
-        footer { background-color: #050d17; color: rgba(255,255,255,0.5); padding: 40px 8%; text-align: center; font-size: 14px; }
+        footer { background-color: #050813; color: rgba(255,255,255,0.5); padding: 60px 8% 40px 8%; text-align: center; font-size: 14px; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--secondary-gold); margin-bottom: 20px; display: block; text-decoration: none;}
+        .footer-links { margin-bottom: 30px; }
+        .footer-links a { color: rgba(255,255,255,0.7); margin: 0 15px; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--secondary-gold); }
 
         @media (max-width: 900px) {
             .nav-links { display: none; width: 100%; position: absolute; top: 100%; left: 0; background-color: rgba(10, 25, 47, 0.98); flex-direction: column; padding: 20px 0; }
@@ -115,80 +215,156 @@
 
     <header class="hero">
         <div class="hero-content reveal active">
-            <h1>We Bring Premium Solution<br>And All Our Clients Alike</h1>
-            <p>Precise. Result-Oriented. Client-Centric.</p>
-            <a href="#contact" class="btn-quote" style="padding: 18px 50px; font-size: 15px !important; letter-spacing: 2px; display: inline-block; margin-top: 20px;">Free Consultation</a>
+            <h1 class="reveal stagger-1 active" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Excellence In<br>Legal Representation</h1>
+            <p class="reveal stagger-2 active" style="font-size: 18px; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Precise. Result-Oriented. Client-Centric.</p>
+            <a href="#contact" class="btn-quote reveal stagger-3 active" style="padding: 20px 55px; font-size: 15px; margin-top: 30px;">Private Consultation</a>
         </div>
     </header>
 
     <section id="about" class="about reveal">
-        <div class="about-text">
+        <div class="about-text reveal stagger-1">
             <h2 class="section-title">About Us</h2>
             <p>Founded on the ethos of integrity, honesty, compassion and excellence — core values which guide our practice and relationships. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice and representation on commercial corporate, family, real estate and dispute resolution (commercial & criminal litigation and commercial arbitration).</p>
             <p>Our team is active, precise and result-oriented. Our craft lies in legal representation and sound legal advice honed over the trust of our clients. We adopt nimble, agile, creative and client-centric approaches to tailor bespoke solutions for our clients’ specific needs.</p>
         </div>
-        <div class="about-image"></div>
+        <div class="about-image unveil-wrapper reveal stagger-2"></div>
     </section>
 
-    <section id="expertise" class="grid-section reveal">
-        <div class="center-title"><h2 class="section-title">Our Expertise</h2></div>
-        <div class="card-grid">
-            <div class="card">
-                <i class="fa-solid fa-building"></i>
-                <h3>Corporate / M&A</h3>
-                <p>Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies for modern enterprises.</p>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-landmark"></i>
-                <h3>Real Estate</h3>
-                <p>Protecting commercial developers and investors through complex transactions and dispute resolution.</p>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-scale-balanced"></i>
-                <h3>Litigation</h3>
-                <p>Aggressive representation in both commercial and criminal litigation, achieving optimal client outcomes.</p>
+    <section id="expertise" class="split-section reveal">
+        <div class="split-image-col"></div>
+        <div class="split-content-col">
+            <h2 class="section-title">Areas of Expertise</h2>
+            <div class="split-list">
+                <div class="split-item">
+                    <i class="fa-solid fa-building"></i>
+                    <div>
+                        <h3>Corporate / M&A</h3>
+                        <p>Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies for modern enterprises.</p>
+                    </div>
+                </div>
+                <div class="split-item">
+                    <i class="fa-solid fa-landmark"></i>
+                    <div>
+                        <h3>Real Estate</h3>
+                        <p>Protecting commercial developers and investors through complex transactions and dispute resolution.</p>
+                    </div>
+                </div>
+                <div class="split-item">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <div>
+                        <h3>Litigation</h3>
+                        <p>Aggressive representation in both commercial and criminal litigation, achieving optimal client outcomes.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="services" class="grid-section alt reveal">
-        <div class="center-title"><h2 class="section-title">Our Services</h2></div>
-        <div class="card-grid">
-            <div class="card">
-                <i class="fa-solid fa-comments"></i>
-                <h3>Legal Consultation</h3>
-                <p>Strategic advisory services to preemptively manage risk and secure your long-term legal standing.</p>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-file-signature"></i>
-                <h3>Contract Drafting</h3>
-                <p>Meticulous drafting and review of complex commercial agreements and corporate documents.</p>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-gavel"></i>
-                <h3>Dispute Resolution</h3>
-                <p>Navigating arbitration, mediation, and settlement negotiations with a focus on cost-effective results.</p>
-            </div>
+    <section id="services" class="accordion-section reveal">
+        <div class="center-title"><h2 class="section-title">Client Services</h2></div>
+        <div class="accordion">
+            <details class="accordion-item">
+                <summary class="accordion-header">
+                    <h3>Legal Consultation</h3>
+                    <i class="fa-solid fa-plus"></i>
+                </summary>
+                <div class="accordion-content">
+                    <p>Strategic advisory services to preemptively manage risk and secure your long-term legal standing. Our experienced partners provide bespoke guidance tailored to your specific industry and operational challenges.</p>
+                </div>
+            </details>
+            <details class="accordion-item">
+                <summary class="accordion-header">
+                    <h3>Contract Drafting</h3>
+                    <i class="fa-solid fa-plus"></i>
+                </summary>
+                <div class="accordion-content">
+                    <p>Meticulous drafting and review of complex commercial agreements and corporate documents. We ensure every clause is ironclad and aligned with your strategic business objectives.</p>
+                </div>
+            </details>
+            <details class="accordion-item">
+                <summary class="accordion-header">
+                    <h3>Dispute Resolution</h3>
+                    <i class="fa-solid fa-plus"></i>
+                </summary>
+                <div class="accordion-content">
+                    <p>Navigating arbitration, mediation, and settlement negotiations with a focus on cost-effective results. We aggressively protect your interests while seeking the most efficient path to resolution.</p>
+                </div>
+            </details>
         </div>
     </section>
 
     <section id="people" class="grid-section reveal">
-        <div class="center-title"><h2 class="section-title">People</h2></div>
-        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-            <div class="people-card">
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400" alt="Partner" class="people-img">
-                <h3>Jonathan Sterling</h3>
-                <p>Managing Partner</p>
+        <div class="center-title"><h2 class="section-title">Our Partners</h2></div>
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="people-card reveal stagger-1">
+                <div class="people-img-wrapper unveil-wrapper"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400" alt="Partner" class="people-img"></div>
+                <div class="people-info">
+                    <h3>Jonathan Sterling</h3>
+                    <p>Managing Partner</p>
+                </div>
             </div>
-            <div class="people-card">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400" alt="Partner" class="people-img">
-                <h3>Eleanor Vance</h3>
-                <p>Senior Counsel</p>
+            <div class="people-card reveal stagger-2">
+                <div class="people-img-wrapper unveil-wrapper"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400" alt="Partner" class="people-img"></div>
+                <div class="people-info">
+                    <h3>Eleanor Vance</h3>
+                    <p>Senior Counsel</p>
+                </div>
             </div>
-            <div class="people-card">
-                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400" alt="Partner" class="people-img">
-                <h3>Michael Chang</h3>
-                <p>Head of Litigation</p>
+            <div class="people-card reveal stagger-3">
+                <div class="people-img-wrapper unveil-wrapper"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400" alt="Partner" class="people-img"></div>
+                <div class="people-info">
+                    <h3>Michael Chang</h3>
+                    <p>Head of Litigation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials reveal">
+        <div class="center-title"><h2 class="section-title">Client Testimonials</h2></div>
+        <div class="test-marquee-wrapper">
+            <div class="test-marquee-content">
+                <div class="test-card">
+                    <p class="test-quote">"Prime Law delivered exceptional results in our corporate restructuring. Their attention to detail and strategic foresight is unmatched in the industry."</p>
+                    <div class="test-author">Marcus Webb</div>
+                    <div class="test-role">CEO, Horizon Group</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"The litigation team at Prime is phenomenal. They approached our complex dispute with aggression and intellect, securing a victory that saved our firm millions."</p>
+                    <div class="test-author">Sarah Jenkins</div>
+                    <div class="test-role">Director, Apex Financial</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"A truly premier boutique firm. They handle our real estate portfolio with absolute precision. We consider them an indispensable part of our business."</p>
+                    <div class="test-author">David Rothschild</div>
+                    <div class="test-role">Founder, Stratos Real Estate</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"Their consultative approach completely changed how we handle IP and compliance. A brilliant team of legal minds that actually understands business."</p>
+                    <div class="test-author">Elena Rostova</div>
+                    <div class="test-role">VP of Operations, TechNova</div>
+                </div>
+                <!-- Duplicate for seamless scroll -->
+                <div class="test-card">
+                    <p class="test-quote">"Prime Law delivered exceptional results in our corporate restructuring. Their attention to detail and strategic foresight is unmatched in the industry."</p>
+                    <div class="test-author">Marcus Webb</div>
+                    <div class="test-role">CEO, Horizon Group</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"The litigation team at Prime is phenomenal. They approached our complex dispute with aggression and intellect, securing a victory that saved our firm millions."</p>
+                    <div class="test-author">Sarah Jenkins</div>
+                    <div class="test-role">Director, Apex Financial</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"A truly premier boutique firm. They handle our real estate portfolio with absolute precision. We consider them an indispensable part of our business."</p>
+                    <div class="test-author">David Rothschild</div>
+                    <div class="test-role">Founder, Stratos Real Estate</div>
+                </div>
+                <div class="test-card">
+                    <p class="test-quote">"Their consultative approach completely changed how we handle IP and compliance. A brilliant team of legal minds that actually understands business."</p>
+                    <div class="test-author">Elena Rostova</div>
+                    <div class="test-role">VP of Operations, TechNova</div>
+                </div>
             </div>
         </div>
     </section>
@@ -198,11 +374,11 @@
         <div class="contact-grid">
             <div class="contact-info">
                 <h3 style="color:var(--secondary-gold); font-size: 28px; margin-bottom: 20px;">Strictly Confidential.</h3>
-                <p style="color: #DDD; font-size: 16px; line-height:1.6;">Use our secure interactive form to provide details about your situation. A senior partner will review your inquiry and contact you within 24 hours.</p>
+                <p style="color: #555; font-size: 16px; line-height:1.6;">Use our secure interactive form to provide details about your situation. A senior partner will review your inquiry and contact you within 24 hours.</p>
                 <div style="margin-top: 40px;">
-                    <p style="color: #FFF; margin-bottom: 15px;"><i class="fa-solid fa-phone" style="color:var(--secondary-gold); margin-right: 15px;"></i> +1 (555) 123-4567</p>
-                    <p style="color: #FFF; margin-bottom: 15px;"><i class="fa-solid fa-envelope" style="color:var(--secondary-gold); margin-right: 15px;"></i> contact@primelaw.partners</p>
-                    <p style="color: #FFF;"><i class="fa-solid fa-location-dot" style="color:var(--secondary-gold); margin-right: 15px;"></i> 100 Legal Ave, Suite 400, New York</p>
+                    <p style="color: var(--primary-navy); margin-bottom: 15px; font-weight: 600;"><i class="fa-solid fa-phone" style="color:var(--secondary-gold); margin-right: 15px;"></i> +1 (555) 123-4567</p>
+                    <p style="color: var(--primary-navy); margin-bottom: 15px; font-weight: 600;"><i class="fa-solid fa-envelope" style="color:var(--secondary-gold); margin-right: 15px;"></i> contact@primelaw.partners</p>
+                    <p style="color: var(--primary-navy); font-weight: 600;"><i class="fa-solid fa-location-dot" style="color:var(--secondary-gold); margin-right: 15px;"></i> 100 Legal Ave, Suite 400, New York</p>
                 </div>
             </div>
             
@@ -257,10 +433,27 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Prime Law Partners. All Rights Reserved. Excellence in Legal Representation.</p>
+        <a href="#" class="footer-logo">PRIME LAW</a>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Attorney Advertising</a>
+            <a href="#">Careers</a>
+        </div>
+        <p>&copy; 2024 Prime Law Partners LLC. All rights reserved. <br> Prior results do not guarantee a similar outcome.</p>
     </footer>
 
     <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            var nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+        });
+
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
