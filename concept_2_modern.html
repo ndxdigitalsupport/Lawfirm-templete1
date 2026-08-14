@@ -33,7 +33,16 @@
         .nav-links a:hover { color: var(--accent); }
         .nav-links a.btn-primary { color: var(--white); }
         .nav-links a.btn-primary:hover { color: var(--black); }
-        .menu-toggle { display: none; cursor: pointer; }
+        
+        /* Menu Toggle Hamburger Spans (Minimal Style) */
+        .menu-toggle { display: none; width: 24px; height: 18px; position: relative; cursor: pointer; z-index: 1001; }
+        .menu-toggle span { display: block; position: absolute; height: 2px; width: 100%; background: var(--black); border-radius: 2px; opacity: 1; left: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        .menu-toggle span:nth-child(1) { top: 0px; }
+        .menu-toggle span:nth-child(2) { top: 8px; }
+        .menu-toggle span:nth-child(3) { top: 16px; }
+        .menu-toggle.open span:nth-child(1) { top: 8px; transform: rotate(135deg); background: var(--accent); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; left: -60px; }
+        .menu-toggle.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); background: var(--accent); }
 
         /* Hero */
         .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 8% 60px 8%; text-align: center; justify-content: center;
@@ -269,11 +278,40 @@
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
             
             .menu-toggle { display: block; color: var(--black); }
-            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); padding: 20px; flex-direction: column; gap: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-radius: 24px; margin-top: 10px; border: 1px solid rgba(0,0,0,0.05); box-sizing: border-box;}
-            .nav-links.active { display: flex; }
-            .nav-links a { margin: 0; font-size: 16px; width: 100%; text-align: center;}
-            .navbar.scrolled .nav-links a:not(.btn-primary) { display: block; font-size: 16px; margin: 0;}
-            .nav-links .btn-primary { margin-left: 0; text-align: center; width: 100%; box-sizing: border-box;}
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.96);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                z-index: 1000;
+                transition: right 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                box-sizing: border-box;
+                padding: 40px;
+                border-radius: 0;
+                margin-top: 0;
+                border: none;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                margin: 20px 0;
+                font-size: clamp(20px, 4vw, 28px);
+                width: auto;
+                text-align: center;
+                letter-spacing: 2px;
+            }
+            .navbar.scrolled .nav-links a:not(.btn-primary) { display: block; font-size: clamp(20px, 4vw, 28px); margin: 20px 0;}
+            .nav-links .btn-primary { margin-left: 0; text-align: center; width: auto; box-sizing: border-box; font-size: 14px; padding: 16px 40px;}
+            .navbar.scrolled .btn-primary { padding: 16px 40px; font-size: 14px; margin-left: 0; }
             
             /* Parallax & Stats Box */
             .img-parallax-container { height: 400px; }
@@ -309,8 +347,10 @@
 
     <nav class="navbar">
         <a href="#" class="logo">PRIME<span>.</span></a>
-        <div class="menu-toggle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
         <div class="nav-links">
             <a href="#about">ABOUT</a>
@@ -765,15 +805,30 @@
         }
 
         // Mobile Menu
+        function toggleMenu() {
+            const toggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            toggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+            
+            // Lock body scroll
+            if (navLinks.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         if(menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
             // Close menu on link click
             navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => navLinks.classList.remove('active'));
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('open');
+                    navLinks.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
             });
         }
 
