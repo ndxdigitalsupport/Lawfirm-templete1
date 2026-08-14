@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRIME - Design Concepts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050505; --accent: #2563eb; --text: #f4f4f5; }
+        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { max-width: 1200px; padding: 40px; text-align: center; width: 100%; box-sizing: border-box; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: 50px; font-weight: 400; margin-bottom: 10px; }
+        p.subtitle { color: #888; font-size: 18px; margin-bottom: 60px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 50px 40px; text-decoration: none; color: var(--text); transition: 0.4s; display: flex; flex-direction: column; align-items: center; }
+        .card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.06); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        
+        .card:nth-child(1):hover { border-color: #c9a050; } /* Gold for traditional */
+        .card:nth-child(2):hover { border-color: #2563eb; } /* Blue for modern */
+        .card:nth-child(3):hover { border-color: #d32f2f; } /* Red for bold */
+        
+        .card-num { font-size: 13px; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; color: #888;}
+        .card:nth-child(1) .card-num { color: #c9a050; }
+        .card:nth-child(2) .card-num { color: #2563eb; }
+        .card:nth-child(3) .card-num { color: #d32f2f; }
+        
+        .card h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; margin: 0 0 15px 0; font-weight: 400; }
+        .card p { font-size: 15px; margin: 0; color: #999; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PRIME Design Presentations</h1>
+        <p class="subtitle">Please select a concept below to view the interactive prototype.</p>
+        
+        <div class="grid">
+            <a href="concept_1_traditional.html" class="card">
+                <div class="card-num">Concept 01</div>
+                <h2>Traditional Elegance</h2>
+                <p>A classic, prestigious layout utilizing serif typography, gold accents, and a highly professional structure.</p>
+            </a>
+            
+            <a href="concept_2_modern.html" class="card">
+                <div class="card-num">Concept 02</div>
+                <h2>Modern Edge</h2>
+                <p>A cutting-edge, tech-forward design featuring interactive bento grids, glassmorphism, and cinematic scroll animations.</p>
+            </a>
+            
+            <a href="concept_3_bold.html" class="card">
+                <div class="card-num">Concept 03</div>
+                <h2>Bold & Aggressive</h2>
+                <p>A highly imposing, high-contrast dark mode layout designed to communicate raw power and industry dominance.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
