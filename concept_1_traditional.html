@@ -41,7 +41,15 @@
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(212,175,55,0.4);
         }
-        .menu-toggle { display: none; color: var(--secondary-gold); font-size: 24px; cursor: pointer; }
+        /* Menu Toggle Hamburger Spans (Traditional Navy & Gold) */
+        .menu-toggle { display: none; width: 26px; height: 20px; position: relative; cursor: pointer; z-index: 1001; }
+        .menu-toggle span { display: block; position: absolute; height: 2.5px; width: 100%; background: var(--secondary-gold); border-radius: 2px; opacity: 1; left: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        .menu-toggle span:nth-child(1) { top: 0px; }
+        .menu-toggle span:nth-child(2) { top: 8px; }
+        .menu-toggle span:nth-child(3) { top: 16px; }
+        .menu-toggle.open span:nth-child(1) { top: 8px; transform: rotate(135deg); background: var(--secondary-gold); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; left: -60px; }
+        .menu-toggle.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); background: var(--secondary-gold); }
 
         .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-light); padding: 0 20px; overflow: hidden;
                 background-image: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.9)), url('./assets/hero_traditional.png');
@@ -192,10 +200,43 @@
         .footer-links a:hover { color: var(--secondary-gold); }
 
         @media (max-width: 900px) {
-            .nav-links { display: none; width: 100%; position: absolute; top: 100%; left: 0; background-color: rgba(10, 25, 47, 0.98); flex-direction: column; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.05); }
-            .nav-links.active { display: flex; }
-            .nav-links a { margin: 15px 0; width: 100%; text-align: center; }
             .menu-toggle { display: block; }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(15, 26, 44, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                z-index: 1000;
+                transition: right 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                box-sizing: border-box;
+                padding: 40px;
+                border-top: none;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                margin: 20px 0;
+                width: auto;
+                text-align: center;
+                font-family: 'Playfair Display', serif;
+                font-size: clamp(22px, 5vw, 32px);
+                letter-spacing: 2px;
+            }
+            .nav-links a.btn-quote {
+                margin-top: 30px;
+                font-size: 16px;
+                padding: 15px 40px;
+                width: auto;
+            }
             
             /* Responsive Layout Adjustments */
             .hero-content h1 { font-size: 38px; }
@@ -235,7 +276,11 @@
 
     <nav>
         <a href="#" class="logo">Prime Law</a>
-        <i class="fa-solid fa-bars menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')"></i>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="nav-links">
             <a href="#about">About Us</a>
             <a href="#expertise">Our Expertise</a>
@@ -513,6 +558,34 @@
             document.querySelectorAll('.dot').forEach((el, index) => {
                 if(index < step) el.classList.add('active');
                 else el.classList.remove('active');
+            });
+        }
+        
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const toggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            toggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+            
+            // Lock body scroll
+            if (navLinks.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if(menuToggle && navLinks) {
+            // Close menu on link click
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('open');
+                    navLinks.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
             });
         }
     </script>
