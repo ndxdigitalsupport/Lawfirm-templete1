@@ -53,14 +53,25 @@
         .section-wrap { padding: 120px 8%; }
         .section-title { font-size: clamp(40px, 6vw, 65px); margin-bottom: 60px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center;}
         
-        /* About */
-        .about-grid { display: flex; gap: 60px; align-items: center; flex-wrap: wrap;}
-        .about-text { flex: 1.2; min-width: 300px; font-size: 18px; line-height: 1.8; color: var(--text-muted);}
-        .about-image-container { flex: 1; min-width: 300px; position: relative;}
-        .about-img { width: 100%; height: 500px; object-fit: cover; transition: 0.5s; border-right: 2px solid var(--accent); box-shadow: 10px 0 30px rgba(229, 9, 20, 0.1);}
-        .about-stats { position: absolute; bottom: -30px; left: -30px; background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); padding: 40px; text-align: center; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); border: 1px solid var(--accent); box-shadow: 0 0 30px var(--glow);}
-        .about-stats h2 { font-size: 70px; margin: 0; color: var(--accent); line-height: 1; text-shadow: 0 0 10px var(--glow);}
-        .about-stats p { font-size: 16px; font-weight: bold; color: white; margin: 10px 0 0 0; letter-spacing: 2px;}
+        /* About Us - Cinematic Widescreen */
+        .about-cinematic { position: relative; min-height: 80vh; display: flex; align-items: flex-end; padding: 120px 8%; overflow: hidden;}
+        .about-widescreen-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1575505586569-646b2ca898fc?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: center; z-index: 1; filter: grayscale(80%) contrast(1.1);}
+        .about-gradient-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, var(--bg-dark) 10%, rgba(5,5,5,0.8) 40%, transparent 100%); z-index: 2;}
+        
+        .about-content-overlay { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; gap: 60px;}
+        .about-text-wrap { max-width: 800px; flex: 2;}
+        .about-text-wrap h2 { font-size: clamp(40px, 6vw, 80px); color: var(--accent); margin-bottom: 30px; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.8); border-left: 4px solid var(--accent); padding-left: 20px;}
+        .about-text-content { font-size: 18px; line-height: 1.8; color: #CCC; font-family: 'Space Grotesk', sans-serif;}
+        .about-text-content p { margin-bottom: 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.8);}
+        
+        .about-stats-widescreen { flex: 1; text-align: right; min-width: 200px;}
+        .stat-number { font-size: clamp(80px, 10vw, 150px); font-family: 'Rajdhani', sans-serif; color: transparent; -webkit-text-stroke: 2px var(--accent); line-height: 0.9; margin-bottom: 10px; font-weight: 700; text-shadow: 0 0 20px rgba(229,9,20,0.2);}
+        .stat-label { font-size: 16px; font-weight: bold; color: white; letter-spacing: 3px; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase;}
+
+        @media (max-width: 900px) {
+            .about-content-overlay { flex-direction: column; align-items: flex-start; }
+            .about-stats-widescreen { text-align: left; margin-top: 30px; border-top: 1px solid rgba(229,9,20,0.3); padding-top: 20px; width: 100%;}
+        }
 
         /* Grids (Expertise, Services) */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
@@ -151,19 +162,22 @@
         </div>
     </header>
 
-    <section id="about" class="section-wrap">
-        <h2 class="section-title slide-up">ABOUT US</h2>
-        <div class="about-grid">
-            <div class="about-text slide-up">
-                <p>Founded on the ethos of integrity, honesty, compassion and excellence — core values which guide our practice and relationships. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice and representation on commercial corporate, family, real estate and dispute resolution (commercial & criminal litigation and commercial arbitration).</p>
-                <p>Our team is active, precise and result-oriented. Our craft lies in legal representation and sound legal advice honed over the trust of our clients. We adopt nimble, agile, creative and client-centric approaches to tailor bespoke solutions for our clients’ specific needs.</p>
-            </div>
-            <div class="about-image-container slide-up">
-                <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?q=80&w=800" alt="Law Office" class="about-img">
-                <div class="about-stats">
-                    <h2>50+</h2>
-                    <p>SUCCESSFUL CASES</p>
+    <section id="about" class="about-cinematic">
+        <div class="about-widescreen-bg"></div>
+        <div class="about-gradient-overlay"></div>
+        
+        <div class="about-content-overlay slide-up">
+            <div class="about-text-wrap">
+                <h2>ABOUT US</h2>
+                <div class="about-text-content">
+                    <p>Founded on the ethos of integrity, honesty, compassion and excellence — core values which guide our practice and relationships. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice and representation on commercial corporate, family, real estate and dispute resolution (commercial & criminal litigation and commercial arbitration).</p>
+                    <p>Our team is active, precise and result-oriented. Our craft lies in legal representation and sound legal advice honed over the trust of our clients. We adopt nimble, agile, creative and client-centric approaches to tailor bespoke solutions for our clients' specific needs.</p>
                 </div>
+            </div>
+            
+            <div class="about-stats-widescreen slide-up" style="transition-delay: 0.2s;">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Years Combined<br>Experience</div>
             </div>
         </div>
     </section>
