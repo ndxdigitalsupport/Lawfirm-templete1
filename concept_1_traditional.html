@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Law - Traditional Excellence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+        :root { --primary-navy: #0F1A2C; --secondary-gold: #C5A059; --bg-light: #F9F9F9; --text-dark: #333333; --text-light: #FFFFFF; }
+
+        body, html { margin: 0; padding: 0; font-family: 'Lato', sans-serif; color: var(--text-dark); background-color: var(--bg-light); scroll-behavior: smooth; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--primary-navy); margin: 0; font-weight: 600; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Navbar */
+        nav { background-color: rgba(10, 25, 47, 0.95); color: var(--text-light); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.1); backdrop-filter: blur(5px); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: var(--secondary-gold); text-transform: uppercase; text-decoration: none; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; margin: 0 15px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--secondary-gold); }
+        .btn-quote { background-color: var(--secondary-gold); color: var(--primary-navy) !important; padding: 12px 30px; font-weight: 700; border: 1px solid var(--secondary-gold); transition: 0.3s; }
+        .btn-quote:hover { background-color: transparent; color: var(--secondary-gold) !important; }
+        .menu-toggle { display: none; color: var(--secondary-gold); font-size: 24px; cursor: pointer; }
+
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-light); padding: 0 20px; overflow: hidden;
+                background-image: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.9)), url('./assets/hero_traditional.png');
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed; }
+        
+        .hero-content { max-width: 900px; margin: 0 auto; z-index: 1; }
+        .hero h1 { color: var(--text-light); font-size: clamp(40px, 5vw, 65px); margin-bottom: 25px; letter-spacing: 1px; line-height: 1.2; text-transform: uppercase; }
+        .hero p { font-size: 20px; margin: 0 auto 40px auto; line-height: 1.8; font-family: 'Playfair Display', serif; color: #E0E0E0; max-width: 600px; }
+
+        .section-title { font-size: clamp(36px, 4vw, 48px); margin-bottom: 25px; position: relative; display: inline-block; text-transform: uppercase; letter-spacing: 2px;}
+        .section-title::after { content: ''; width: 60px; height: 2px; background-color: var(--secondary-gold); position: absolute; bottom: -12px; left: 0; }
+        .center-title { text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;}
+        .center-title .section-title::after { left: 50%; transform: translateX(-50%); }
+
+        /* About */
+        .about { padding: 100px 8%; display: flex; align-items: center; gap: 60px; background-color: #FFF; flex-wrap: wrap;}
+        .about-text { flex: 1; min-width: 300px;}
+        .about-image { flex: 1; min-width: 300px; height: 400px; width: 100%; background: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=800') center/cover; background-attachment: fixed; border-radius: 4px; box-shadow: -20px 20px 0 var(--secondary-gold); }
+        .about-text p { line-height: 1.8; color: #555; font-size: 16px; margin-bottom: 20px; text-align: justify; }
+        
+        /* Grid Layouts (Expertise, Services) */
+        .grid-section { padding: 120px 8%; background-color: var(--bg-light); }
+        .grid-section.alt { background-color: #FFF; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-top: 70px; }
+        .card { background: #FFF; padding: 50px 40px; border: 1px solid #F0F0F0; transition: all 0.4s ease; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(15, 26, 44, 0.08); border-color: var(--secondary-gold);}
+        .card i { font-size: 45px; color: var(--secondary-gold); margin-bottom: 25px;}
+        .card h3 { font-size: 24px; margin-bottom: 15px; letter-spacing: 1px;}
+        .card p { color: #666; font-size: 16px; line-height: 1.7;}
+
+        /* People */
+        .people-card { text-align: center; padding: 20px; transition: 0.3s;}
+        .people-card:hover { transform: translateY(-5px); }
+        .people-img { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid transparent; box-shadow: 0 0 0 2px var(--secondary-gold); padding: 5px; margin: 0 auto 25px auto; display: block; transition: 0.3s;}
+        .people-card:hover .people-img { padding: 0; border-color: var(--secondary-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.1);}
+        .people-card h3 { font-size: 26px; margin-bottom: 5px; letter-spacing: 1px;}
+        .people-card p { color: var(--secondary-gold); font-family: 'Playfair Display', serif; font-size: 19px; font-style: italic;}
+
+        /* Contact Section with Multi-step */
+        .contact { padding: 120px 8%; background-color: var(--primary-navy); color: white; text-align: center; }
+        .contact h2 { color: white; }
+        .contact-grid { display: flex; justify-content: center; margin-top: 70px; gap: 80px; text-align: left; flex-wrap: wrap; align-items: center;}
+        .contact-info, .contact-form-container { flex: 1; min-width: 300px; max-width: 600px;}
+        
+        .contact-form-container { background: white; padding: 50px; border-top: 4px solid var(--secondary-gold); color: var(--text-dark); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3);}
+        .form-step { display: none; animation: fadeIn 0.6s ease; }
+        .form-step.active { display: block; }
+        
+        .form-title { font-size: 24px; color: var(--primary-navy); margin-bottom: 25px; font-family: 'Playfair Display', serif;}
+        .issue-btn { display: block; width: 100%; padding: 15px; margin-bottom: 15px; background: var(--bg-light); border: 1px solid #DDD; text-align: left; font-family: 'Lato', sans-serif; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .issue-btn:hover { border-color: var(--secondary-gold); background: rgba(212, 175, 55, 0.1); }
+        .step-nav { display: flex; justify-content: space-between; margin-top: 30px; }
+        .btn-form { background-color: var(--secondary-gold); color: var(--primary-navy); padding: 12px 30px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-form.outline { background: transparent; border: 1px solid #CCC; color: #666; }
+        .btn-form:hover { opacity: 0.8; }
+        
+        .contact-form-container input, .contact-form-container textarea { width: 100%; padding: 15px; margin-bottom: 20px; background: var(--bg-light); border: 1px solid #DDD; font-family: 'Lato', sans-serif; box-sizing: border-box; }
+        
+        .step-indicator { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #DDD; }
+        .dot.active { background: var(--secondary-gold); }
+
+        footer { background-color: #050d17; color: rgba(255,255,255,0.5); padding: 40px 8%; text-align: center; font-size: 14px; }
+
+        @media (max-width: 900px) {
+            .nav-links { display: none; width: 100%; position: absolute; top: 100%; left: 0; background-color: rgba(10, 25, 47, 0.98); flex-direction: column; padding: 20px 0; }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 15px 0; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">Prime Law</a>
+        <i class="fa-solid fa-bars menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')"></i>
+        <div class="nav-links">
+            <a href="#about">About Us</a>
+            <a href="#expertise">Our Expertise</a>
+            <a href="#services">Our Services</a>
+            <a href="#people">People</a>
+            <a href="#contact" class="btn-quote">Contact Us</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content reveal active">
+            <h1>We Bring Premium Solution<br>And All Our Clients Alike</h1>
+            <p>Precise. Result-Oriented. Client-Centric.</p>
+            <a href="#contact" class="btn-quote" style="padding: 18px 50px; font-size: 15px !important; letter-spacing: 2px; display: inline-block; margin-top: 20px;">Free Consultation</a>
+        </div>
+    </header>
+
+    <section id="about" class="about reveal">
+        <div class="about-text">
+            <h2 class="section-title">About Us</h2>
+            <p>Founded on the ethos of integrity, honesty, compassion and excellence — core values which guide our practice and relationships. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice and representation on commercial corporate, family, real estate and dispute resolution (commercial & criminal litigation and commercial arbitration).</p>
+            <p>Our team is active, precise and result-oriented. Our craft lies in legal representation and sound legal advice honed over the trust of our clients. We adopt nimble, agile, creative and client-centric approaches to tailor bespoke solutions for our clients’ specific needs.</p>
+        </div>
+        <div class="about-image"></div>
+    </section>
+
+    <section id="expertise" class="grid-section reveal">
+        <div class="center-title"><h2 class="section-title">Our Expertise</h2></div>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fa-solid fa-building"></i>
+                <h3>Corporate / M&A</h3>
+                <p>Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies for modern enterprises.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-landmark"></i>
+                <h3>Real Estate</h3>
+                <p>Protecting commercial developers and investors through complex transactions and dispute resolution.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <h3>Litigation</h3>
+                <p>Aggressive representation in both commercial and criminal litigation, achieving optimal client outcomes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="grid-section alt reveal">
+        <div class="center-title"><h2 class="section-title">Our Services</h2></div>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fa-solid fa-comments"></i>
+                <h3>Legal Consultation</h3>
+                <p>Strategic advisory services to preemptively manage risk and secure your long-term legal standing.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-file-signature"></i>
+                <h3>Contract Drafting</h3>
+                <p>Meticulous drafting and review of complex commercial agreements and corporate documents.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-gavel"></i>
+                <h3>Dispute Resolution</h3>
+                <p>Navigating arbitration, mediation, and settlement negotiations with a focus on cost-effective results.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="people" class="grid-section reveal">
+        <div class="center-title"><h2 class="section-title">People</h2></div>
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <div class="people-card">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400" alt="Partner" class="people-img">
+                <h3>Jonathan Sterling</h3>
+                <p>Managing Partner</p>
+            </div>
+            <div class="people-card">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400" alt="Partner" class="people-img">
+                <h3>Eleanor Vance</h3>
+                <p>Senior Counsel</p>
+            </div>
+            <div class="people-card">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400" alt="Partner" class="people-img">
+                <h3>Michael Chang</h3>
+                <p>Head of Litigation</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact reveal">
+        <div class="center-title"><h2 class="section-title">Contact Us</h2></div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3 style="color:var(--secondary-gold); font-size: 28px; margin-bottom: 20px;">Strictly Confidential.</h3>
+                <p style="color: #DDD; font-size: 16px; line-height:1.6;">Use our secure interactive form to provide details about your situation. A senior partner will review your inquiry and contact you within 24 hours.</p>
+                <div style="margin-top: 40px;">
+                    <p style="color: #FFF; margin-bottom: 15px;"><i class="fa-solid fa-phone" style="color:var(--secondary-gold); margin-right: 15px;"></i> +1 (555) 123-4567</p>
+                    <p style="color: #FFF; margin-bottom: 15px;"><i class="fa-solid fa-envelope" style="color:var(--secondary-gold); margin-right: 15px;"></i> contact@primelaw.partners</p>
+                    <p style="color: #FFF;"><i class="fa-solid fa-location-dot" style="color:var(--secondary-gold); margin-right: 15px;"></i> 100 Legal Ave, Suite 400, New York</p>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <div class="step-indicator">
+                    <div class="dot active" id="dot1"></div>
+                    <div class="dot" id="dot2"></div>
+                    <div class="dot" id="dot3"></div>
+                </div>
+                
+                <form id="evaluationForm" onsubmit="event.preventDefault(); submitForm();">
+                    <!-- Step 1 -->
+                    <div class="form-step active" id="step1">
+                        <h3 class="form-title">What is your inquiry about?</h3>
+                        <button type="button" class="issue-btn" onclick="nextStep(2)">Corporate / Business Law</button>
+                        <button type="button" class="issue-btn" onclick="nextStep(2)">Real Estate</button>
+                        <button type="button" class="issue-btn" onclick="nextStep(2)">Litigation</button>
+                        <button type="button" class="issue-btn" onclick="nextStep(2)">Other</button>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="form-step" id="step2">
+                        <h3 class="form-title">Tell us briefly about the situation.</h3>
+                        <textarea rows="5" placeholder="Please provide a brief overview of the facts..."></textarea>
+                        <div class="step-nav">
+                            <button type="button" class="btn-form outline" onclick="prevStep(1)">Back</button>
+                            <button type="button" class="btn-form" onclick="nextStep(3)">Continue</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="form-step" id="step3">
+                        <h3 class="form-title">Your Contact Details</h3>
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="tel" placeholder="Phone Number" required>
+                        <div class="step-nav">
+                            <button type="button" class="btn-form outline" onclick="prevStep(2)">Back</button>
+                            <button type="submit" class="btn-form">Submit Securely</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Success Step -->
+                    <div class="form-step" id="stepSuccess" style="text-align: center; padding: 40px 0;">
+                        <i class="fa-solid fa-check-circle" style="font-size: 60px; color: var(--secondary-gold); margin-bottom: 20px;"></i>
+                        <h3 class="form-title">Request Received</h3>
+                        <p style="color: #666;">Your information has been securely transmitted. Our office will be in touch shortly.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Prime Law Partners. All Rights Reserved. Excellence in Legal Representation.</p>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+        
+        // Multi-step form logic
+        function nextStep(step) {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            updateDots(step);
+        }
+        function prevStep(step) { nextStep(step); }
+        function submitForm() {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('stepSuccess').classList.add('active');
+            document.querySelector('.step-indicator').style.display = 'none';
+        }
+        function updateDots(step) {
+            document.querySelectorAll('.dot').forEach((el, index) => {
+                if(index < step) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

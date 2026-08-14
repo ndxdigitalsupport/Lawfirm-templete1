@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Law - Modern & Minimal</title>
+    <!-- We removed FontAwesome and use highly performant inline SVGs -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;700;800&display=swap');
+
+        :root { --black: #050505; --white: #FFFFFF; --grey-light: #F4F4F5; --grey-dark: #52525B; --accent: #2563EB; --accent-dark: #1E40AF; }
+
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; color: var(--black); background-color: var(--white); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; overflow-x: hidden;}
+        
+        /* Typography Contrast */
+        h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; font-weight: 300; margin: 0; }
+        
+        /* Advanced Animations */
+        .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Staggered text reveal */
+        .reveal-text { overflow: hidden; display: inline-block; }
+        .reveal-word { display: inline-block; transform: translateY(100%); transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .reveal-text.visible .reveal-word { transform: translateY(0); }
+
+        /* Navbar (Glassmorphism) */
+        nav { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; box-sizing: border-box; z-index: 1000; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: -1px; color: var(--black); text-decoration: none; font-family: 'Inter', sans-serif;}
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: var(--black); text-decoration: none; margin: 0 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a.btn-primary { color: var(--white); }
+        .nav-links a.btn-primary:hover { color: var(--black); }
+        .menu-toggle { display: none; cursor: pointer; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 8% 60px 8%; text-align: center; justify-content: center;
+                background-image: linear-gradient(rgba(244, 244, 245, 0.95), rgba(244, 244, 245, 0.8)), url('./assets/hero_modern.png');
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed; }
+        
+        .hero-content { max-width: 1000px;}
+        .hero h1 { font-size: clamp(50px, 8vw, 110px); font-weight: 300; line-height: 1; letter-spacing: -1px; margin-bottom: 30px;}
+        .hero p { font-size: 18px; font-weight: 400; color: var(--grey-dark); line-height: 1.6; margin: 0 auto 50px auto; max-width: 600px; text-transform: uppercase; letter-spacing: 2px;}
+        
+        .btn-primary { background-color: var(--black); color: var(--white); padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: 0.4s; display: inline-block;}
+        .btn-primary:hover { background-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(37,99,235,0.3);}
+
+        /* Section Global */
+        .section-title { font-size: clamp(40px, 6vw, 70px); font-weight: 300; margin-bottom: 20px;}
+        
+        /* About (Parallax & Layout) */
+        .about { padding: 160px 8%; display: flex; gap: 100px; align-items: center; flex-wrap: wrap;}
+        .about-text { flex: 1.5; min-width: 300px;}
+        .about-text p { font-size: 22px; font-family: 'Cormorant Garamond', serif; color: var(--black); line-height: 1.6; margin-bottom: 30px;}
+        .about-list { list-style: none; padding: 0; margin: 30px 0; }
+        .about-list li { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-weight: 600; font-size: 15px; color: var(--black); }
+        .about-list svg { width: 20px; height: 20px; fill: none; stroke: var(--accent); stroke-width: 2; }
+        .about-signature { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; margin-top: 40px; color: var(--grey-dark); }
+        
+        .about-visual { flex: 1; min-width: 300px; position: relative;}
+        .img-parallax-container { overflow: hidden; border-radius: 16px; box-shadow: 0 40px 80px rgba(0,0,0,0.15); height: 600px;}
+        .img-parallax-container img { width: 100%; height: 130%; object-fit: cover; transform: translateY(0); transition: transform 0.1s linear;}
+        .stats-box { position: absolute; bottom: -30px; left: -40px; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5); color: var(--black); padding: 50px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);}
+        .stats-num { font-size: 70px; font-family: 'Cormorant Garamond', serif; font-weight: 300; line-height: 1;}
+        .stats-text { font-size: 13px; font-weight: 700; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent);}
+
+        /* Premium Expertise Bento Accordion */
+        .expertise { padding: 120px 8%; position: relative; background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920') center/cover fixed; display: flex; flex-direction: column; align-items: center; }
+        .expertise::before { content: ''; position: absolute; inset: 0; background: rgba(10,10,12,0.85); z-index: 1;}
+        .expertise-header { position: relative; z-index: 2; margin-bottom: 60px; text-align: center; color: var(--white);}
+        
+        .bento-accordion { display: flex; gap: 20px; width: 100%; max-width: 1400px; height: 600px; position: relative; z-index: 2; }
+        .bento-card { flex: 1; border-radius: 24px; position: relative; overflow: hidden; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; }
+        
+        .bento-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.6s; z-index: -1; }
+        .bento-card:nth-child(1) .bento-bg { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800'); }
+        .bento-card:nth-child(2) .bento-bg { background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800'); }
+        .bento-card:nth-child(3) .bento-bg { background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800'); }
+        .bento-card:nth-child(4) .bento-bg { background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800'); }
+        
+        /* Gradient overlay for readability when bg is shown */
+        .bento-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.2), transparent); opacity: 0; transition: 0.6s; z-index: -1;}
+        
+        .bento-card:hover { flex: 3.5; border-color: rgba(255,255,255,0.3); transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.5);}
+        .bento-card:hover .bento-bg, .bento-card:hover::after { opacity: 1; }
+        
+        .bento-content { position: relative; z-index: 2; color: var(--white); display: flex; flex-direction: column; height: 100%; justify-content: space-between;}
+        
+        .bento-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .bento-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: 0.4s; flex-shrink: 0;}
+        .bento-card:hover .bento-icon { background: var(--accent); }
+        .bento-icon svg { width: 24px; height: 24px; fill: none; stroke: var(--white); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
+        
+        .bento-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; white-space: nowrap; transition: 0.4s; transform-origin: left; letter-spacing: 1px;}
+        
+        .bento-hidden { opacity: 0; transform: translateY(20px); transition: all 0.4s 0.1s; visibility: hidden; max-height: 0; overflow: hidden;}
+        .bento-card:hover .bento-hidden { opacity: 1; transform: translateY(0); visibility: visible; max-height: 200px;}
+        
+        .bento-desc { color: #DDD; font-size: 16px; line-height: 1.6; margin-top: 15px;}
+        .bento-link { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--white); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; margin-top: 25px; }
+        .bento-link svg { stroke: var(--white); width: 16px; height: 16px; }
+
+        /* Modern Contact (Glassmorphism Form) */
+        .contact { background-image: url('./assets/hero_modern.png'); background-attachment: fixed; background-size: cover; background-position: center; position: relative; padding: 160px 8%; display: flex; flex-wrap: wrap; gap: 80px; align-items: center;}
+        .contact::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.85); }
+        .contact-text { flex: 1.2; min-width: 300px; position: relative; z-index: 1; color: var(--white);}
+        .contact-text p { font-size: 18px; color: #CCC; margin-bottom: 40px; line-height: 1.8;}
+        
+        .form-container { flex: 1; min-width: 350px; background: rgba(255,255,255,0.05); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); padding: 60px; border-radius: 24px; color: var(--white); position: relative; z-index: 1; box-shadow: 0 30px 60px rgba(0,0,0,0.5);}
+        .form-step { display: none; animation: fadeUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .form-step.active { display: block; }
+        
+        .form-title { font-size: 28px; font-family: 'Cormorant Garamond', serif; font-weight: 300; margin-bottom: 30px; }
+        .issue-card { display: block; width: 100%; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; text-align: left; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.2); color: white;}
+        .issue-card:hover { border-color: var(--accent); background: var(--accent);}
+        
+        .form-container input, .form-container textarea { width: 100%; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 16px; box-sizing: border-box; transition: 0.3s; background: rgba(0,0,0,0.2); color: white;}
+        .form-container input:focus, .form-container textarea:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.4);}
+        
+        .step-nav { display: flex; justify-content: space-between; margin-top: 30px;}
+        .btn-next { background: var(--accent); color: var(--white); padding: 16px 35px; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;}
+        .btn-next:hover { background: var(--white); color: var(--black); }
+        .btn-back { background: transparent; color: #AAA; border: none; font-weight: 600; cursor: pointer; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;}
+        
+        /* Floating Action Button (FAB) */
+        .fab { position: fixed; bottom: 40px; right: 40px; background: rgba(255,255,255,0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(0,0,0,0.05); padding: 15px 30px; border-radius: 50px; z-index: 999; display: flex; align-items: center; gap: 10px; color: var(--black); text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: 0.4s; opacity: 0; transform: translateY(20px); pointer-events: none;}
+        .fab.visible { opacity: 1; transform: translateY(0); pointer-events: auto;}
+        .fab:hover { background: var(--black); color: var(--white); transform: translateY(-5px);}
+        .fab svg { width: 18px; height: 18px; fill: currentColor;}
+
+        /* Progress Bar */
+        #scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.1s; }
+
+        /* Trusted Companies - Dark Mode Marquee */
+        .trusted-container { position: relative; width: 100%; margin-top: 60px; margin-bottom: 60px; background: var(--black); box-shadow: 0 0 40px rgba(37,99,235,0.25); border-top: 1px solid rgba(37,99,235,0.2); border-bottom: 1px solid rgba(37,99,235,0.2); padding: 40px 0; display: flex; align-items: center; overflow: hidden; z-index: 10; }
+        .trusted-container::before, .trusted-container::after { content: ''; position: absolute; top: 0; width: 150px; height: 100%; z-index: 2; pointer-events: none;}
+        .trusted-container::before { left: 0; background: linear-gradient(to right, var(--black), transparent); }
+        .trusted-container::after { right: 0; background: linear-gradient(to left, var(--black), transparent); }
+        .trusted-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--grey-dark); min-width: 200px; position: relative; z-index: 3; padding-left: 8%; flex-shrink: 0;}
+        .marquee-wrapper { flex: 1; overflow: hidden; display: flex; align-items: center; }
+        .logo-track { display: flex; gap: 100px; align-items: center; animation: scrollMarquee 25s linear infinite; white-space: nowrap; padding-right: 100px;}
+        .logo-track:hover { animation-play-state: paused; }
+        .logo-item { opacity: 0.3; transition: opacity 0.4s ease; display: flex; align-items: center; gap: 15px; cursor: pointer; color: var(--white); }
+        .logo-item:hover { opacity: 1; }
+        .logo-item svg { height: 35px; width: 35px; fill: var(--white); }
+        .logo-item span { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 1px;}
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Services Accordion */
+        .services-section { padding: 120px 8%; background: var(--black); color: var(--white); }
+        .accordion { border-top: 1px solid rgba(255,255,255,0.2); }
+        .accordion-item { border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .accordion-header { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; font-family: 'Cormorant Garamond', serif; font-size: 32px;}
+        .accordion-header:hover { color: var(--accent); }
+        .accordion-icon { font-size: 24px; font-family: 'Inter', sans-serif; font-weight: 300; transition: transform 0.3s;}
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; color: #999; font-size: 16px; line-height: 1.6;}
+        .accordion-content p { padding-bottom: 40px; margin: 0; max-width: 600px;}
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); color: var(--accent); }
+
+        /* People / Team */
+        .team-section { padding: 120px 8%; background: var(--grey-light); padding-bottom: 200px; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; align-items: center;}
+        
+        /* Editorial Staggering */
+        .team-card:nth-child(2) { transform: translateY(-40px); }
+        .team-card:nth-child(3) { transform: translateY(40px); }
+        
+        .team-card { position: relative; overflow: hidden; border-radius: 12px; cursor: pointer; box-shadow: 0 20px 40px rgba(0,0,0,0.08); background: var(--black); }
+        .team-img { width: 100%; height: 500px; object-fit: cover; transition: 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); opacity: 0.9;}
+        
+        .team-card:hover .team-img { transform: scale(1.06); opacity: 0.4;}
+        
+        .team-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 30px; background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.4) 70%, transparent); color: var(--white); box-sizing: border-box; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); height: 100%; display: flex; flex-direction: column; justify-content: flex-end;}
+        
+        .team-bio { font-size: 14px; line-height: 1.6; color: #CCC; max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); margin-top: 15px;}
+        .team-socials { display: flex; gap: 15px; margin-top: 20px; opacity: 0; transform: translateY(10px); transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); transition-delay: 0.1s;}
+        .team-socials a { color: var(--white); transition: 0.3s; }
+        .team-socials a:hover { color: var(--accent); }
+        
+        .team-card:hover .team-bio { max-height: 100px; opacity: 1; }
+        .team-card:hover .team-socials { opacity: 1; transform: translateY(0); }
+        
+        .team-name { font-size: 32px; font-family: 'Cormorant Garamond', serif; margin-bottom: 5px; transition: 0.3s;}
+        .team-card:hover .team-name { color: var(--accent); }
+        .team-role { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--white); }
+
+        /* Wall of Love Testimonials */
+        .testimonials { padding: 120px 8%; background: var(--grey-light); position: relative; }
+        .testim-header { text-align: center; margin-bottom: 60px; }
+        .testim-header p { color: var(--grey-dark); margin-top: 15px; }
+        .wall-of-love { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; height: 600px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); }
+        .wol-col { display: flex; flex-direction: column; gap: 30px; will-change: transform; }
+        .wol-col.up { animation: scrollUp 40s linear infinite; }
+        .wol-col.down { animation: scrollDown 40s linear infinite; }
+        
+        .wol-card { background: var(--white); border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .wol-quote { font-family: 'Cormorant Garamond', serif; font-size: 20px; line-height: 1.6; color: var(--black); margin-bottom: 30px; font-style: italic; }
+        .wol-author { display: flex; align-items: center; gap: 15px; }
+        .wol-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .wol-name { font-weight: 800; font-size: 15px; margin-bottom: 3px; }
+        .wol-role { font-size: 11px; color: var(--grey-dark); text-transform: uppercase; letter-spacing: 1px; }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        @keyframes scrollDown {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        footer { background: var(--black); color: var(--white); padding: 80px 8% 40px 8%; font-family: 'Inter', sans-serif; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; margin-bottom: 40px; }
+        .footer-brand { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; color: var(--white); }
+        .footer-brand span { color: var(--accent); }
+        .footer-desc { color: #888; font-size: 15px; line-height: 1.7; max-width: 300px; }
+        
+        /* Navigation */
+        .navbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 30px 8%; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: transparent;
+        }
+        .navbar.scrolled {
+            padding: 15px 40px;
+            top: 20px;
+            width: 80%;
+            left: 10%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 100px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,1);
+        }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; transition: 0.3s; color: var(--black); text-decoration: none;}
+        .navbar.scrolled .logo { font-size: 20px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: var(--black); text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-left: 40px; transition: all 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .navbar.scrolled .nav-links a:not(.btn-primary) { font-size: 11px; margin-left: 30px;}
+        .navbar.scrolled .btn-primary { padding: 12px 24px; font-size: 11px; margin-left: 30px;}
+        
+        .footer-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--white); }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { color: #888; text-decoration: none; font-size: 15px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--white); }
+        .footer-bottom { display: flex; justify-content: space-between; color: #666; font-size: 13px; }
+
+        @media (max-width: 1000px) {
+            .about { flex-direction: column; gap: 50px; padding: 100px 5%; }
+            .contact { flex-direction: column; gap: 50px; padding: 100px 5%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            
+            .menu-toggle { display: block; color: var(--black); }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); padding: 20px; flex-direction: column; gap: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px;}
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0; font-size: 16px; width: 100%; text-align: center;}
+            .navbar.scrolled .nav-links a:not(.btn-primary) { display: block; font-size: 16px; margin: 0;}
+            .nav-links .btn-primary { margin-left: 0; text-align: center; width: 100%; box-sizing: border-box;}
+            
+            .bento-accordion { flex-direction: column; height: auto; }
+            .bento-card { min-height: 200px; flex: auto; padding: 30px;}
+            .bento-card:hover { flex: auto; transform: translateY(-5px);}
+            .bento-title { white-space: normal; }
+            .bento-hidden { opacity: 1; visibility: visible; transform: none; max-height: none; display: none;}
+            .bento-card:hover .bento-hidden { display: block; }
+            
+            .team-grid { grid-template-columns: 1fr; }
+            .team-card:nth-child(2), .team-card:nth-child(3) { transform: translateY(0); }
+            .trusted-container { flex-direction: column; text-align: center; gap: 20px; padding-left: 0; }
+            .trusted-label { padding-left: 0; margin-bottom: 20px;}
+            .wall-of-love { grid-template-columns: 1fr; height: 800px; }
+            .wol-col:nth-child(2), .wol-col:nth-child(3) { display: none; }
+            
+            .navbar.scrolled { width: 94%; left: 3%; padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+
+    <nav class="navbar">
+        <a href="#" class="logo">PRIME<span>.</span></a>
+        <div class="menu-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </div>
+        <div class="nav-links">
+            <a href="#about">ABOUT</a>
+            <a href="#expertise">EXPERTISE</a>
+            <a href="#services">SERVICES</a>
+            <a href="#partners">PARTNERS</a>
+            <a href="#clients">CLIENTS</a>
+            <a href="#contact" class="btn-primary" style="margin-left: 20px;">BOOK CONSULTATION</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="reveal-text" id="hero-title">We Bring Premium Solution And All Our Clients Alike</h1>
+            <p class="fade-in" style="transition-delay: 0.8s">A premier boutique legal office providing agile, creative, and strictly client-centric legal counsel.</p>
+        </div>
+    </header>
+
+    <section class="about fade-in" id="about">
+        <div class="about-text fade-in">
+            <h2 class="section-title">About Us</h2>
+            <p>Founded on the ethos of integrity, honesty, compassion and excellence. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice.</p>
+            <p style="color: var(--grey-dark); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400;">Our craft lies in legal representation and sound advice honed over the trust of our clients. We adopt nimble, agile, and client-centric approaches to tailor bespoke solutions.</p>
+            <ul class="about-list">
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Uncompromising Integrity</li>
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Agile & Tactical Strategies</li>
+                <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Absolute Client Discretion</li>
+            </ul>
+            <div class="about-signature">Arthur Pendelton</div>
+        </div>
+        <div class="about-visual fade-in">
+            <div class="img-parallax-container">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800" alt="Modern Office" id="parallax-img">
+            </div>
+            <div class="stats-box">
+                <div class="stats-num">50+</div>
+                <div class="stats-text">Successful<br>Cases</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise fade-in" id="expertise">
+        <div class="expertise-header fade-in">
+            <h2 class="section-title" style="color: white; margin-bottom: 0;">Our Expertise</h2>
+            <p style="color: #AAA; font-size: 18px; margin-top: 10px;">Unrivaled counsel for the world's most complex legal challenges.</p>
+        </div>
+        <div class="bento-accordion fade-in">
+            <!-- Corporate -->
+            <div class="bento-card">
+                <div class="bento-bg"></div>
+                <div class="bento-content">
+                    <div class="bento-top">
+                        <div class="bento-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bento-title">Corporate / M&A</div>
+                        <div class="bento-hidden">
+                            <p class="bento-desc">Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies designed for modern enterprise.</p>
+                            <a href="#" class="bento-link">Explore Practice <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Real Estate -->
+            <div class="bento-card">
+                <div class="bento-bg"></div>
+                <div class="bento-content">
+                    <div class="bento-top">
+                        <div class="bento-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bento-title">Real Estate</div>
+                        <div class="bento-hidden">
+                            <p class="bento-desc">Protecting commercial developers and investors through complex, high-stakes property transactions.</p>
+                            <a href="#" class="bento-link">Explore Practice <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Litigation -->
+            <div class="bento-card">
+                <div class="bento-bg"></div>
+                <div class="bento-content">
+                    <div class="bento-top">
+                        <div class="bento-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M3 9l9-4 9 4"/><path d="M6 9l-3 7a4 4 0 0 0 6 0l-3-7"/><path d="M18 9l-3 7a4 4 0 0 0 6 0l-3-7"/><path d="M8 21h8"/></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bento-title">Litigation</div>
+                        <div class="bento-hidden">
+                            <p class="bento-desc">Aggressive, strategic representation in commercial and criminal litigation when it matters most.</p>
+                            <a href="#" class="bento-link">Explore Practice <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Family Law -->
+            <div class="bento-card">
+                <div class="bento-bg"></div>
+                <div class="bento-content">
+                    <div class="bento-top">
+                        <div class="bento-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bento-title">Family Law</div>
+                        <div class="bento-hidden">
+                            <p class="bento-desc">Discreet, strategic counsel for high-net-worth family matters, ensuring privacy and asset protection.</p>
+                            <a href="#" class="bento-link">Explore Practice <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section fade-in" id="services">
+        <h2 class="section-title fade-in" style="margin-bottom: 60px;">Specialized Services</h2>
+        <div class="accordion fade-in">
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    01. Intellectual Property Protection
+                    <div class="accordion-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <p>We safeguard your most valuable assets. From patent filings to aggressive enforcement of trademarks and copyrights globally.</p>
+                </div>
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    02. Cross-Border Transactions
+                    <div class="accordion-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <p>Seamless navigation of complex international regulatory frameworks, tax structuring, and compliance for global enterprises.</p>
+                </div>
+            </div>
+            <div class="accordion-item" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    03. White-Collar Defense
+                    <div class="accordion-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <p>Discreet, powerful representation for executives and corporations facing government investigations and regulatory scrutiny.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section fade-in" id="partners">
+        <div class="expertise-header fade-in">
+            <h2 class="section-title">The Partners</h2>
+        </div>
+        <div class="team-grid fade-in">
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600" class="team-img" alt="Arthur Pendelton">
+                <div class="team-info">
+                    <div class="team-name">Arthur Pendelton</div>
+                    <div class="team-role">Managing Partner</div>
+                    <div class="team-bio">Former federal prosecutor with over 25 years of experience in high-stakes white-collar defense.</div>
+                    <div class="team-socials">
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600" class="team-img" alt="Eleanor Vance">
+                <div class="team-info">
+                    <div class="team-name">Eleanor Vance</div>
+                    <div class="team-role">Head of Litigation</div>
+                    <div class="team-bio">Nationally recognized litigator specializing in complex commercial disputes and class action defense.</div>
+                    <div class="team-socials">
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600" class="team-img" alt="Julian Reed">
+                <div class="team-info">
+                    <div class="team-name">Julian Reed</div>
+                    <div class="team-role">Corporate / M&A</div>
+                    <div class="team-bio">Strategic advisor orchestrating billion-dollar acquisitions and cross-border restructuring operations.</div>
+                    <div class="team-socials">
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="trusted-container fade-in">
+        <div class="trusted-label">Trusted by industry leaders</div>
+        <div class="marquee-wrapper">
+            <div class="logo-track">
+                <!-- Group 1 -->
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
+                    <span>VANGUARD</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg>
+                    <span>NEXUS</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" transform="rotate(45 12 12)" fill="currentColor"/></svg>
+                    <span>OCULUS</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l10 10-10 10L2 12 12 2z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+                    <span>AURELIUS</span>
+                </div>
+                <!-- Group 2 (Duplicate for seamless loop) -->
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
+                    <span>VANGUARD</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg>
+                    <span>NEXUS</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" transform="rotate(45 12 12)" fill="currentColor"/></svg>
+                    <span>OCULUS</span>
+                </div>
+                <div class="logo-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l10 10-10 10L2 12 12 2z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+                    <span>AURELIUS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="testimonials" id="clients">
+        <div class="testim-header fade-in">
+            <h2 class="section-title">Client Perspectives</h2>
+            <p>Trusted by the world's most demanding enterprises and individuals.</p>
+        </div>
+        
+        <div class="wall-of-love fade-in">
+            <!-- Column 1 (Scrolls Up) -->
+            <div class="wol-col up">
+                <!-- Original Set -->
+                <div class="wol-card"><p class="wol-quote">"Prime provided unparalleled strategic guidance during our aggressive international expansion."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150" class="wol-avatar" alt="Marcus"><div><div class="wol-name">Marcus Reynolds</div><div class="wol-role">CEO, Vanguard Corp</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"Their tact and absolute discretion is unmatched in the industry. A premium experience from start to finish."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150" class="wol-avatar" alt="Elena"><div><div class="wol-name">Elena Rodriguez</div><div class="wol-role">Director, Oculus</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"The level of personalization and attention to detail at Prime is astounding. True professionals."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150" class="wol-avatar" alt="Victoria"><div><div class="wol-name">Victoria Sterling</div><div class="wol-role">Sterling Estates</div></div></div></div>
+                <!-- Duplicate Set -->
+                <div class="wol-card"><p class="wol-quote">"Prime provided unparalleled strategic guidance during our aggressive international expansion."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150" class="wol-avatar" alt="Marcus"><div><div class="wol-name">Marcus Reynolds</div><div class="wol-role">CEO, Vanguard Corp</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"Their tact and absolute discretion is unmatched in the industry. A premium experience from start to finish."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150" class="wol-avatar" alt="Elena"><div><div class="wol-name">Elena Rodriguez</div><div class="wol-role">Director, Oculus</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"The level of personalization and attention to detail at Prime is astounding. True professionals."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150" class="wol-avatar" alt="Victoria"><div><div class="wol-name">Victoria Sterling</div><div class="wol-role">Sterling Estates</div></div></div></div>
+            </div>
+
+            <!-- Column 2 (Scrolls Down) -->
+            <div class="wol-col down">
+                <!-- Original Set -->
+                <div class="wol-card"><p class="wol-quote">"When we faced a hostile takeover, Arthur and his team mobilized immediately. Brilliant defense strategies that saved the company."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150" class="wol-avatar" alt="Sarah"><div><div class="wol-name">Sarah Jenkins</div><div class="wol-role">Founder, Nexus Tech</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"They handle pressure with extreme poise. The best boutique firm I have ever had the pleasure of working with."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150" class="wol-avatar" alt="James"><div><div class="wol-name">James Arlington</div><div class="wol-role">Private Client</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"Uncompromising integrity. They tell you exactly what you need to hear, not just what you want to hear."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150" class="wol-avatar" alt="Rachel"><div><div class="wol-name">Rachel Kim</div><div class="wol-role">VP, Horizon Group</div></div></div></div>
+                <!-- Duplicate Set -->
+                <div class="wol-card"><p class="wol-quote">"When we faced a hostile takeover, Arthur and his team mobilized immediately. Brilliant defense strategies that saved the company."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150" class="wol-avatar" alt="Sarah"><div><div class="wol-name">Sarah Jenkins</div><div class="wol-role">Founder, Nexus Tech</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"They handle pressure with extreme poise. The best boutique firm I have ever had the pleasure of working with."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150" class="wol-avatar" alt="James"><div><div class="wol-name">James Arlington</div><div class="wol-role">Private Client</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"Uncompromising integrity. They tell you exactly what you need to hear, not just what you want to hear."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150" class="wol-avatar" alt="Rachel"><div><div class="wol-name">Rachel Kim</div><div class="wol-role">VP, Horizon Group</div></div></div></div>
+            </div>
+
+            <!-- Column 3 (Scrolls Up) -->
+            <div class="wol-col up" style="animation-delay: -10s;">
+                <!-- Original Set -->
+                <div class="wol-card"><p class="wol-quote">"Eleanor Vance is a force of nature in the courtroom. We felt completely protected during our complex litigation."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?q=80&w=150" class="wol-avatar" alt="David"><div><div class="wol-name">David Chen</div><div class="wol-role">Director, Aurelius</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"They executed our merger flawlessly. No detail was overlooked, and they negotiated from a position of absolute power."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150" class="wol-avatar" alt="Michael"><div><div class="wol-name">Michael Chang</div><div class="wol-role">Partner, V-Cap</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"The only firm I trust with my family's legacy and real estate portfolio. Discretion and power personified."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150" class="wol-avatar" alt="Anna"><div><div class="wol-name">Anna Petrov</div><div class="wol-role">Private Client</div></div></div></div>
+                <!-- Duplicate Set -->
+                <div class="wol-card"><p class="wol-quote">"Eleanor Vance is a force of nature in the courtroom. We felt completely protected during our complex litigation."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?q=80&w=150" class="wol-avatar" alt="David"><div><div class="wol-name">David Chen</div><div class="wol-role">Director, Aurelius</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"They executed our merger flawlessly. No detail was overlooked, and they negotiated from a position of absolute power."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150" class="wol-avatar" alt="Michael"><div><div class="wol-name">Michael Chang</div><div class="wol-role">Partner, V-Cap</div></div></div></div>
+                <div class="wol-card"><p class="wol-quote">"The only firm I trust with my family's legacy and real estate portfolio. Discretion and power personified."</p><div class="wol-author"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150" class="wol-avatar" alt="Anna"><div><div class="wol-name">Anna Petrov</div><div class="wol-role">Private Client</div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-text fade-in">
+            <h2 class="section-title" style="color:white;">Ready to proceed?</h2>
+            <p>Use our interactive evaluation tool to securely transmit the details of your situation. A partner will review your inquiry immediately.</p>
+            
+            <div style="margin-top: 60px; display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 20px; font-weight: 700; font-size: 14px; letter-spacing: 1px;">
+                    <svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +1 (555) 123-4567
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px; font-weight: 700; font-size: 14px; letter-spacing: 1px;">
+                    <svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    contact@primelaw.partners
+                </div>
+            </div>
+        </div>
+        <div class="form-container fade-in">
+            <form id="modernForm" onsubmit="event.preventDefault(); submitForm();">
+                <!-- Step 1 -->
+                <div class="form-step active" id="step1">
+                    <div class="form-title">Select Practice Area</div>
+                    <button type="button" class="issue-card" onclick="nextStep(2)">Corporate / M&A</button>
+                    <button type="button" class="issue-card" onclick="nextStep(2)">Real Estate Dispute</button>
+                    <button type="button" class="issue-card" onclick="nextStep(2)">High-Net-Worth Family</button>
+                    <button type="button" class="issue-card" onclick="nextStep(2)">General Litigation</button>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="form-step" id="step2">
+                    <div class="form-title">Provide Overview</div>
+                    <textarea rows="5" placeholder="Confidential details of the matter..."></textarea>
+                    <div class="step-nav">
+                        <button type="button" class="btn-back" onclick="prevStep(1)">Back</button>
+                        <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="form-step" id="step3">
+                    <div class="form-title">Contact Information</div>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <input type="tel" placeholder="Phone Number" required>
+                    <div class="step-nav">
+                        <button type="button" class="btn-back" onclick="prevStep(2)">Back</button>
+                        <button type="submit" class="btn-next">Submit Securely</button>
+                    </div>
+                </div>
+                
+                <!-- Success -->
+                <div class="form-step" id="stepSuccess" style="text-align: center; padding: 40px 0;">
+                    <svg width="60" height="60" fill="none" stroke="var(--accent)" stroke-width="2" style="margin-bottom: 20px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <div class="form-title">Transmission Secure</div>
+                    <p style="color: #AAA; font-family:'Inter', sans-serif;">Our team is reviewing your details.</p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="fade-in">
+                <div class="footer-brand">PRIME<span>.</span></div>
+                <div class="footer-desc">A premier boutique legal office providing agile, creative, and strictly client-centric legal counsel globally.</div>
+            </div>
+            <div class="fade-in" style="transition-delay: 0.1s">
+                <div class="footer-title">Navigation</div>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#expertise">Our Expertise</a></li>
+                    <li><a href="#contact">Book Consultation</a></li>
+                </ul>
+            </div>
+            <div class="fade-in" style="transition-delay: 0.2s">
+                <div class="footer-title">Contact</div>
+                <ul class="footer-links">
+                    <li><a href="#">+1 (555) 123-4567</a></li>
+                    <li><a href="#">contact@primelaw.partners</a></li>
+                    <li><a href="#">1200 Financial District, NY</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom fade-in">
+            <div>&copy; 2026 Prime Law Partners. All rights reserved.</div>
+            <div>Privacy Policy | Terms of Service</div>
+        </div>
+    </footer>
+
+    <a href="#contact" class="fab">
+        Book Consultation
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+    </a>
+
+    <script>
+        // Staggered text reveal for hero title
+        const titleEl = document.getElementById('hero-title');
+        const words = titleEl.innerText.split(' ');
+        titleEl.innerHTML = '';
+        words.forEach((word, idx) => {
+            const span = document.createElement('span');
+            span.className = 'reveal-word';
+            span.style.transitionDelay = `${idx * 0.15}s`;
+            span.innerHTML = word + '&nbsp;';
+            titleEl.appendChild(span);
+        });
+        setTimeout(() => { titleEl.classList.add('visible'); }, 100);
+
+        // Standard Fade in observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const parallaxImg = document.getElementById('parallax-img');
+            if(parallaxImg) {
+                // Ensure image doesn't scroll out of container bounds
+                let offset = scrolled * 0.03;
+                if (offset > 25) offset = 25;
+                parallaxImg.style.transform = `translateY(-${offset}%)`;
+            }
+            
+            // FAB visibility
+            const fab = document.querySelector('.fab');
+            if (scrolled > 500) {
+                fab.classList.add('visible');
+            } else {
+                fab.classList.remove('visible');
+            }
+            
+            // Scroll Progress
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolledProgress = (winScroll / height) * 100;
+            const progressBar = document.getElementById('scroll-progress');
+            if(progressBar) progressBar.style.width = scrolledProgress + "%";
+            
+            // Header Scroll Morph Logic
+            const navbar = document.querySelector('.navbar');
+            if(winScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+
+
+        // Accordion Logic
+        function toggleAccordion(element) {
+            const content = element.querySelector('.accordion-content');
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                content.style.maxHeight = null;
+            } else {
+                // Close all others
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.accordion-content').style.maxHeight = null;
+                });
+                element.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // Mobile Menu
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if(menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            // Close menu on link click
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => navLinks.classList.remove('active'));
+            });
+        }
+
+        // Multi-step form logic
+        function nextStep(step) {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+        }
+        function prevStep(step) { nextStep(step); }
+        function submitForm() {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('stepSuccess').classList.add('active');
+        }
+    </script>
+</body>
+</html>

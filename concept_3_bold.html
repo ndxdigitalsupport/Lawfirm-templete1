@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Law - Bold & Contemporary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Montserrat:wght@300;400;500;700&display=swap');
+
+        :root { --bg-dark: #020202; --bg-card: #0A0A0A; --accent: #E50914; --text-main: #FFFFFF; --text-muted: #888888; }
+
+        body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; color: var(--text-main); background-color: var(--bg-dark); scroll-behavior: smooth; letter-spacing: 0.5px;}
+        h1, h2, h3, .logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; margin: 0; letter-spacing: 1px;}
+        .slide-up { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .slide-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* Navbar */
+        nav { padding: 30px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; box-sizing: border-box; z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); transition: background 0.3s; }
+        nav.scrolled { background: rgba(5,5,5,0.95); backdrop-filter: blur(10px); padding: 20px 8%; border-bottom: 1px solid #222;}
+        .logo { font-size: 34px; font-weight: 700; letter-spacing: 3px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin: 0 15px; font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--accent); transition: width 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+        .menu-toggle { display: none; font-size: 28px; cursor: pointer; color: var(--text-main); }
+        .btn-quote { background-color: var(--accent); color: var(--text-main) !important; padding: 14px 30px; border: none; font-weight: 700; letter-spacing: 1.5px; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); transition: 0.3s; }
+        .btn-quote::after { display: none; }
+        .btn-quote:hover { background-color: #B20710; transform: scale(1.05) skewX(-5deg); }
+
+        /* Hero */
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; text-align: left; padding: 0 10%; overflow: hidden; z-index: 1;}
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(to right, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.8) 40%, rgba(5,5,5,0.2) 100%), url('./assets/hero_bold_new.png');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            z-index: -1; filter: grayscale(50%);
+        }
+        
+        .hero-content { max-width: 800px; padding-top: 50px;}
+        .hero h1 { font-size: clamp(40px, 7vw, 90px); line-height: 1.05; margin-bottom: 30px; letter-spacing: 0px; text-shadow: 0px 15px 40px rgba(0,0,0,0.9); }
+        .hero h1 span { color: var(--accent); -webkit-text-stroke: 0; display: block; margin-top: 10px;}
+        
+        .btn-primary { background-color: transparent; color: var(--text-main); padding: 18px 50px; font-family: 'Oswald', sans-serif; font-size: 20px; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; display: inline-block; border: 2px solid var(--text-main); transition: 0.3s; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); }
+        .btn-primary:hover { background-color: var(--text-main); color: var(--bg-dark); }
+
+        /* Sections */
+        .section-wrap { padding: 120px 8%; }
+        .section-title { font-size: clamp(40px, 6vw, 65px); margin-bottom: 60px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center;}
+        
+        /* About */
+        .about-grid { display: flex; gap: 60px; align-items: center; flex-wrap: wrap;}
+        .about-text { flex: 1.2; min-width: 300px; font-size: 18px; line-height: 1.8; color: var(--text-muted);}
+        .about-image-container { flex: 1; min-width: 300px; position: relative;}
+        .about-img { width: 100%; height: 500px; object-fit: cover; transition: 0.5s; border-right: 4px solid var(--accent);}
+        .about-stats { position: absolute; bottom: -30px; left: -30px; background: var(--accent); padding: 40px; text-align: center; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); box-shadow: 0 20px 40px rgba(0,0,0,0.5);}
+        .about-stats h2 { font-size: 70px; margin: 0; color: white; line-height: 1;}
+        .about-stats p { font-size: 16px; font-weight: bold; color: white; margin: 10px 0 0 0; letter-spacing: 2px;}
+
+        /* Grids (Expertise, Services) */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .dark-card { background-color: var(--bg-card); padding: 50px 40px; border-left: 4px solid var(--accent); transition: 0.4s; text-align: center; position: relative; z-index: 1; border-bottom: 1px solid #1A1A1A;}
+        .dark-card::after { content: ''; position: absolute; top:0; left:0; width: 100%; height: 100%; background: var(--accent); z-index: -1; transform: scaleX(0); transform-origin: left; transition: 0.4s; }
+        .dark-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(229, 9, 20, 0.2); border-left-color: white;}
+        .dark-card:hover::after { transform: scaleX(1); }
+        .dark-card:hover h3, .dark-card:hover p, .dark-card:hover i { color: white; }
+        .dark-card i { font-size: 45px; color: var(--accent); margin-bottom: 20px; transition: 0.4s;}
+        .dark-card h3 { font-size: 22px; font-weight: bold; margin-bottom: 15px; transition: 0.4s;}
+        .dark-card p { color: var(--text-muted); line-height: 1.6; transition: 0.4s;}
+
+        /* People */
+        .people-card { position: relative; overflow: hidden; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
+        .people-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; transition: 0.5s; display: block;}
+        .people-card:hover img { transform: scale(1.05);}
+        .people-info { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(229, 9, 20, 0.9); padding: 20px; text-align: center; transform: translateY(100%); transition: 0.4s;}
+        .people-card:hover .people-info { transform: translateY(0); }
+        .people-info h3 { color: white; margin-bottom: 5px;}
+        .people-info p { color: white; font-weight: bold; margin: 0;}
+
+        /* Contact Box / Multi-step */
+        .contact-box { margin: 100px 8%; background-color: #0A0A0A; padding: 80px 5%; position: relative; display: flex; flex-wrap: wrap; gap: 50px; align-items: center; border: 1px solid #222;}
+        .contact-box::after { content: ''; position: absolute; top: -15px; left: -15px; right: 15px; bottom: 15px; border: 2px solid var(--accent); z-index: -1; transition: 0.3s; }
+        .contact-box:hover::after { top: -10px; left: -10px; right: 10px; bottom: 10px; border-width: 3px; box-shadow: 0 0 30px rgba(229, 9, 20, 0.3); }
+        
+        .contact-info { flex: 1; min-width: 300px; text-align: center;}
+        .contact-info h2 { font-size: clamp(35px, 5vw, 60px); margin-bottom: 20px;}
+        .contact-info p { color: var(--text-muted); font-size: 18px; margin-bottom: 40px;}
+        .contact-info i { color: var(--accent); margin-right: 15px; font-size: 24px;}
+        .contact-info .detail { font-size: 22px; color: white; margin-bottom: 20px; font-weight: bold;}
+
+        .multi-step-form { flex: 1; min-width: 300px; width: 100%;}
+        .form-step { display: none; animation: slideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .form-step.active { display: block; }
+        @keyframes slideIn { from{opacity:0; transform:translateX(30px);} to{opacity:1; transform:translateX(0);} }
+        
+        .form-title { font-size: 28px; font-family: 'Oswald', sans-serif; margin-bottom: 30px; text-align: center; letter-spacing: 1px;}
+        .opt-btn { display: block; width: 100%; background: #050505; color: #FFF; border: 1px solid #333; padding: 20px; margin-bottom: 15px; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s;}
+        .opt-btn:hover { background: var(--accent); border-color: var(--accent); padding-left: 30px; }
+        
+        .multi-step-form input, .multi-step-form textarea { width: 100%; background: #050505; border: 1px solid #333; color: white; padding: 18px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: 0.3s;}
+        .multi-step-form input:focus, .multi-step-form textarea:focus { outline: none; border-color: var(--accent);}
+        
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px;}
+        .nav-buttons button { background: var(--accent); color: white; border: none; padding: 15px 40px; font-family: 'Oswald', sans-serif; font-size: 18px; letter-spacing: 1px; cursor: pointer; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); transition: 0.3s;}
+        .nav-buttons button:hover { background: #B20710; }
+        .nav-buttons button.back { background: transparent; border: 1px solid #555; clip-path: none; color: #AAA;}
+        
+        .progress-dots { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px;}
+        .p-dot { width: 12px; height: 12px; border: 1px solid #555; transform: rotate(45deg); }
+        .p-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px var(--accent);}
+
+        footer { padding: 60px 8%; background-color: #000; text-align: center; border-top: 1px solid #111; }
+
+        @media (max-width: 900px) {
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(5, 5, 5, 0.98); flex-direction: column; padding: 20px 0; border-bottom: 1px solid #222; }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .contact-box::after { display: none; }
+            .contact-box { border: 2px solid var(--accent); padding: 50px 20px; margin: 50px 8%; }
+            .about-stats { position: relative; bottom: 0; left: 0; margin-top: -30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">PRIME<span>LAW</span></div>
+        <i class="fa-solid fa-bars menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')"></i>
+        <div class="nav-links">
+            <a href="#about">About Us</a>
+            <a href="#expertise">Our Expertise</a>
+            <a href="#services">Our Services</a>
+            <a href="#people">People</a>
+            <a href="#contact" class="btn-quote">Contact Us</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="slide-up">WE BRING PREMIUM SOLUTION<br><span>AND ALL OUR CLIENTS ALIKE</span></h1>
+            <div class="slide-up" style="margin-top: 40px;"><a href="#contact" class="btn-primary">FREE CONSULTATION</a></div>
+        </div>
+    </header>
+
+    <section id="about" class="section-wrap">
+        <h2 class="section-title slide-up">ABOUT US</h2>
+        <div class="about-grid">
+            <div class="about-text slide-up">
+                <p>Founded on the ethos of integrity, honesty, compassion and excellence — core values which guide our practice and relationships. We are a premier boutique legal office dedicated to providing clients with sound, practical and cost-effective legal advice and representation on commercial corporate, family, real estate and dispute resolution (commercial & criminal litigation and commercial arbitration).</p>
+                <p>Our team is active, precise and result-oriented. Our craft lies in legal representation and sound legal advice honed over the trust of our clients. We adopt nimble, agile, creative and client-centric approaches to tailor bespoke solutions for our clients’ specific needs.</p>
+            </div>
+            <div class="about-image-container slide-up">
+                <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?q=80&w=800" alt="Law Office" class="about-img">
+                <div class="about-stats">
+                    <h2>50+</h2>
+                    <p>SUCCESSFUL CASES</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise" class="section-wrap" style="background-color: var(--bg-card);">
+        <h2 class="section-title slide-up">OUR EXPERTISE</h2>
+        <div class="grid-container">
+            <div class="dark-card slide-up">
+                <i class="fa-solid fa-building"></i>
+                <h3>CORPORATE / M&A</h3>
+                <p>Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.1s">
+                <i class="fa-solid fa-landmark"></i>
+                <h3>REAL ESTATE</h3>
+                <p>Protecting commercial developers and investors through complex transactions.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.2s">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <h3>LITIGATION</h3>
+                <p>Aggressive representation in commercial and criminal litigation.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.3s">
+                <i class="fa-solid fa-users-line"></i>
+                <h3>FAMILY LAW</h3>
+                <p>Discreet, strategic counsel for high-net-worth family matters.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section-wrap">
+        <h2 class="section-title slide-up">OUR SERVICES</h2>
+        <div class="grid-container">
+            <div class="dark-card slide-up">
+                <i class="fa-solid fa-comments"></i>
+                <h3>LEGAL CONSULTATION</h3>
+                <p>Strategic advisory services to preemptively manage risk.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.1s">
+                <i class="fa-solid fa-file-signature"></i>
+                <h3>CONTRACT DRAFTING</h3>
+                <p>Meticulous drafting and review of complex agreements.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.2s">
+                <i class="fa-solid fa-handshake-angle"></i>
+                <h3>DISPUTE RESOLUTION</h3>
+                <p>Navigating arbitration and mediation effectively.</p>
+            </div>
+            <div class="dark-card slide-up" style="transition-delay: 0.3s">
+                <i class="fa-solid fa-gavel"></i>
+                <h3>LEGAL REPRESENTATION</h3>
+                <p>Unyielding advocacy in courtrooms and boardrooms alike.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="people" class="section-wrap" style="background-color: var(--bg-card);">
+        <h2 class="section-title slide-up">PEOPLE</h2>
+        <div class="grid-container" style="gap: 40px;">
+            <div class="people-card slide-up">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600" alt="Partner">
+                <div class="people-info">
+                    <h3>JONATHAN STERLING</h3>
+                    <p>MANAGING PARTNER</p>
+                </div>
+            </div>
+            <div class="people-card slide-up" style="transition-delay: 0.1s">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600" alt="Partner">
+                <div class="people-info">
+                    <h3>ELEANOR VANCE</h3>
+                    <p>SENIOR COUNSEL</p>
+                </div>
+            </div>
+            <div class="people-card slide-up" style="transition-delay: 0.2s">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600" alt="Partner">
+                <div class="people-info">
+                    <h3>MICHAEL CHANG</h3>
+                    <p>HEAD OF LITIGATION</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-box slide-up">
+        <div class="contact-info">
+            <h2>CONTACT US</h2>
+            <p>Complete our secure evaluation form to initiate a confidential strategy session.</p>
+            <div class="detail"><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</div>
+            <div class="detail"><i class="fa-solid fa-envelope"></i> contact@primelaw.partners</div>
+            <div class="detail"><i class="fa-solid fa-location-dot"></i> 100 Legal Ave, NY</div>
+        </div>
+        
+        <div class="multi-step-form">
+            <div class="progress-dots">
+                <div class="p-dot active" id="pd1"></div>
+                <div class="p-dot" id="pd2"></div>
+                <div class="p-dot" id="pd3"></div>
+            </div>
+
+            <form id="boldForm" onsubmit="event.preventDefault(); submitForm();">
+                <!-- Step 1 -->
+                <div class="form-step active" id="step1">
+                    <div class="form-title">IDENTIFY YOUR MATTER</div>
+                    <button type="button" class="opt-btn" onclick="nextStep(2)">Corporate / M&A</button>
+                    <button type="button" class="opt-btn" onclick="nextStep(2)">Commercial Litigation</button>
+                    <button type="button" class="opt-btn" onclick="nextStep(2)">White-Collar Defense</button>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="form-step" id="step2">
+                    <div class="form-title">MATTER DETAILS</div>
+                    <textarea rows="5" placeholder="Provide confidential context..."></textarea>
+                    <div class="nav-buttons">
+                        <button type="button" class="back" onclick="prevStep(1)">REVERT</button>
+                        <button type="button" onclick="nextStep(3)">PROCEED</button>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="form-step" id="step3">
+                    <div class="form-title">TRANSMIT SECURELY</div>
+                    <input type="text" placeholder="Full Legal Name" required>
+                    <input type="email" placeholder="Secure Email Address" required>
+                    <input type="tel" placeholder="Direct Phone Number" required>
+                    <div class="nav-buttons">
+                        <button type="button" class="back" onclick="prevStep(2)">REVERT</button>
+                        <button type="submit">TRANSMIT DATA</button>
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div class="form-step" id="stepSuccess">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-shield-halved" style="font-size: 60px; color: var(--accent); margin-bottom: 20px;"></i>
+                        <div class="form-title">TRANSMISSION CONFIRMED</div>
+                        <p style="color: var(--text-muted);">Our legal team is reviewing your encrypted submission. Expect contact shortly.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="logo">PRIME<span>LAW</span></div>
+        <p>&copy; 2026 Prime Law. Unyielding Representation.</p>
+    </footer>
+
+    <script>
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+        });
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.slide-up').forEach((el) => observer.observe(el));
+        setTimeout(() => { document.querySelectorAll('.hero-content .slide-up').forEach(el => el.classList.add('visible')); }, 100);
+
+        // Multi-step
+        function nextStep(step) {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            updateDots(step);
+        }
+        function prevStep(step) { nextStep(step); }
+        function submitForm() {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('stepSuccess').classList.add('active');
+            document.querySelector('.progress-dots').style.display = 'none';
+        }
+        function updateDots(step) {
+            document.querySelectorAll('.p-dot').forEach((el, index) => {
+                if(index < step) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>
