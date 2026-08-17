@@ -200,6 +200,7 @@
         .team-name { font-size: 32px; font-family: 'Cormorant Garamond', serif; margin-bottom: 5px; transition: 0.3s;}
         .team-card:hover .team-name { color: var(--accent); }
         .team-role { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--white); }
+        .team-section .section-title { color: var(--black); }
 
         /* Wall of Love Testimonials */
         .testimonials { padding: 120px 8%; background: var(--grey-light); position: relative; }
@@ -244,6 +245,7 @@
             padding: 30px 8%; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
             background: transparent;
+            box-sizing: border-box;
         }
         .navbar.scrolled {
             padding: 15px 40px;
@@ -256,6 +258,7 @@
             border-radius: 100px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             border: 1px solid rgba(255,255,255,1);
+            box-sizing: border-box;
         }
         .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; transition: 0.3s; color: var(--black); text-decoration: none;}
         .navbar.scrolled .logo { font-size: 20px; }
@@ -276,6 +279,7 @@
             .hero { background-attachment: scroll; }
             .about { flex-direction: column; gap: 50px; padding: 100px 5%; }
             .contact { flex-direction: column; gap: 50px; padding: 100px 5%; background-attachment: scroll; }
+            .form-container { min-width: auto; width: 100%; padding: 40px 20px; box-sizing: border-box; }
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
             
             .menu-toggle { display: block; color: var(--black); }
@@ -338,7 +342,8 @@
             .wall-of-love { grid-template-columns: 1fr; height: 500px; }
             .wol-col:nth-child(2), .wol-col:nth-child(3) { display: none; }
             
-            .navbar.scrolled { width: 94%; left: 3%; padding: 15px 20px; }
+            .navbar { width: 100%; left: 0; padding: 20px 5%; box-sizing: border-box; }
+            .navbar.scrolled { width: 94%; left: 3%; padding: 15px 20px; box-sizing: border-box; }
         }
     </style>
 </head>
