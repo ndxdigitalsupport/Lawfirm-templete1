@@ -113,7 +113,7 @@
             overflow: hidden;
             position: relative;
         }
-        .people-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s;}
+        .people-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: 0.5s;}
         .people-card:hover .people-img { transform: scale(1.05);}
         
         .people-info { background: var(--primary-navy); padding: 30px; text-align: center; border-top: 3px solid var(--secondary-gold);}
@@ -244,7 +244,7 @@
             
             /* About Us */
             .about { flex-direction: column; text-align: center; padding: 60px 5%; gap: 40px; }
-            .about-image { box-shadow: 0 10px 0 var(--secondary-gold); height: 300px; background-attachment: scroll; }
+            .about-image { box-shadow: 0 10px 0 var(--secondary-gold); height: auto; aspect-ratio: 16/9; background-attachment: scroll; }
             
             /* Expertise (Split Screen) */
             .split-image-col { background-attachment: scroll; min-height: 300px; }
