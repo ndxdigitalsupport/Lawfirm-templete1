@@ -6,19 +6,19 @@
     <title>Law Firm - Traditional Excellence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
 
         :root { --primary-navy: #0F1A2C; --secondary-gold: #C5A059; --bg-light: #F9F9F9; --text-dark: #333333; --text-light: #FFFFFF; }
 
         body, html { margin: 0; padding: 0; font-family: 'Lato', sans-serif; color: var(--text-dark); background-color: var(--bg-light); scroll-behavior: smooth; overflow-x: hidden; line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--primary-navy); margin: 0; font-weight: 600; }
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; color: var(--primary-navy); margin: 0; font-weight: 500; }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Navbar */
         nav { background-color: transparent; color: var(--text-light); padding: 40px 8%; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 1000; transition: all 0.4s ease; }
         nav.nav-scrolled { background-color: rgba(10, 25, 47, 0.95); padding: 15px 8%; box-shadow: 0 4px 20px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
-        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--secondary-gold); text-decoration: none; letter-spacing: 2px;}
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--secondary-gold); text-decoration: none; letter-spacing: 2px;}
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: var(--text-light); text-decoration: none; margin: 0 15px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
         .nav-links a:hover { color: var(--secondary-gold); }
@@ -59,8 +59,8 @@
                 background-attachment: fixed; }
         
         .hero-content { max-width: 900px; margin: 0 auto; z-index: 1; }
-        .hero h1 { color: var(--text-light); font-size: clamp(40px, 5vw, 65px); margin-bottom: 25px; letter-spacing: 1px; line-height: 1.2; text-transform: uppercase; }
-        .hero p { font-size: 20px; margin: 0 auto 40px auto; line-height: 1.8; font-family: 'Playfair Display', serif; color: #E0E0E0; max-width: 600px; }
+        .hero h1 { color: var(--text-light); font-size: clamp(40px, 5vw, 65px); margin-bottom: 25px; letter-spacing: 1px; line-height: 1.2; font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+        .hero p { font-size: 24px; margin: 0 auto 40px auto; line-height: 1.8; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--secondary-gold); max-width: 700px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
 
         .section-title { font-size: clamp(36px, 4vw, 48px); margin-bottom: 25px; position: relative; display: inline-block; text-transform: uppercase; letter-spacing: 2px;}
         .section-title::after { content: ''; width: 60px; height: 2px; background-color: var(--secondary-gold); position: absolute; bottom: -12px; left: 0; }
@@ -264,7 +264,7 @@
         .dot.active { background: var(--secondary-gold); }
 
         footer { background-color: #050813; color: rgba(255,255,255,0.5); padding: 60px 8% 40px 8%; text-align: center; font-size: 14px; }
-        .footer-logo { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--secondary-gold); margin-bottom: 20px; display: block; text-decoration: none;}
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 30px; color: var(--secondary-gold); margin-bottom: 20px; display: block; text-decoration: none;}
         .footer-links { margin-bottom: 30px; }
         .footer-links a { color: rgba(255,255,255,0.7); margin: 0 15px; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; transition: 0.3s; }
         .footer-links a:hover { color: var(--secondary-gold); }
@@ -297,7 +297,7 @@
                 margin: 20px 0;
                 width: auto;
                 text-align: center;
-                font-family: 'Playfair Display', serif;
+                font-family: 'Cormorant Garamond', serif;
                 font-size: clamp(22px, 5vw, 32px);
                 letter-spacing: 2px;
             }
@@ -368,7 +368,7 @@
     <header class="hero">
         <div class="hero-content reveal active">
             <h1 class="reveal stagger-1 active" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Excellence In<br>Legal Representation</h1>
-            <p class="reveal stagger-2 active" style="font-size: 18px; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Precise. Result-Oriented. Client-Centric.</p>
+            <p class="reveal stagger-2 active">Precise. Result-Oriented. Client-Centric.</p>
             <a href="#contact" class="btn-quote reveal stagger-3 active" style="padding: 20px 55px; font-size: 15px; margin-top: 30px;">Private Consultation</a>
         </div>
     </header>
