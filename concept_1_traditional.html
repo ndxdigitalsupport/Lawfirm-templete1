@@ -243,11 +243,13 @@
             .hero-content h1 { font-size: 38px; }
             
             /* About Us */
-            .about { flex-direction: column; text-align: center; padding: 60px 5%; gap: 40px; }
-            .about-image { box-shadow: 0 10px 0 var(--secondary-gold); height: auto; aspect-ratio: 16/9; background-attachment: scroll; }
+            .about { flex-direction: column; text-align: center; padding: 60px 5%; gap: 0; }
+            .about-text { border: 2px solid var(--secondary-gold); padding: 40px 25px; position: relative; box-sizing: border-box; }
+            .about-text::before { content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid rgba(170, 130, 34, 0.3); pointer-events: none; }
+            .about-image { display: none; }
             
             /* Expertise (Split Screen) */
-            .split-image-col { background-attachment: scroll; min-height: 300px; }
+            .split-image-col { display: none; }
             .split-content-col { padding: 60px 5%; }
             .split-item { gap: 15px; }
             
