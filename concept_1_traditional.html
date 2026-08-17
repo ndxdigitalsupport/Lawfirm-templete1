@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Law - Traditional Excellence</title>
+    <title>Law Firm - Traditional Excellence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
@@ -98,9 +98,10 @@
             left: -15px;
             width: 50px;
             height: 50px;
-            border-top: 2px solid var(--secondary-gold);
-            border-left: 2px solid var(--secondary-gold);
+            border-top: 4px solid var(--secondary-gold);
+            border-left: 4px solid var(--secondary-gold);
             pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         /* Bottom-Right Gold Corner Bracket */
         .split-image-frame::after {
@@ -110,9 +111,19 @@
             right: -15px;
             width: 50px;
             height: 50px;
-            border-bottom: 2px solid var(--secondary-gold);
-            border-right: 2px solid var(--secondary-gold);
+            border-bottom: 4px solid var(--secondary-gold);
+            border-right: 4px solid var(--secondary-gold);
             pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        /* Hover Effect: Corner brackets slide inward to hug the photo */
+        .split-image-col:hover .split-image-frame::before {
+            top: -6px;
+            left: -6px;
+        }
+        .split-image-col:hover .split-image-frame::after {
+            bottom: -6px;
+            right: -6px;
         }
         .split-content-col { flex: 1; min-width: 300px; padding: 100px 8%; background: var(--bg-light); display: flex; flex-direction: column; justify-content: center;}
         .split-item { 
@@ -339,7 +350,7 @@
 <body>
 
     <nav>
-        <a href="#" class="logo">Prime Law</a>
+        <a href="#" class="logo">Law Firm</a>
         <div class="menu-toggle" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -576,14 +587,14 @@
     </section>
 
     <footer>
-        <a href="#" class="footer-logo">PRIME LAW</a>
+        <a href="#" class="footer-logo">LAW FIRM</a>
         <div class="footer-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
             <a href="#">Attorney Advertising</a>
             <a href="#">Careers</a>
         </div>
-        <p>&copy; 2024 Prime Law Partners LLC. All rights reserved. <br> Prior results do not guarantee a similar outcome.</p>
+        <p>&copy; 2024 Law Firm Partners LLC. All rights reserved. <br> Prior results do not guarantee a similar outcome.</p>
     </footer>
 
     <script>
