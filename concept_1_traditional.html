@@ -82,11 +82,35 @@
         .split-section { display: flex; flex-wrap: wrap; background: #FFF; padding: 0;}
         .split-image-col { flex: 1; min-width: 300px; background: url('./assets/hero_traditional.png') center/cover; min-height: 500px; background-attachment: fixed;}
         .split-content-col { flex: 1; min-width: 300px; padding: 100px 8%; background: var(--bg-light); display: flex; flex-direction: column; justify-content: center;}
-        .split-list { margin-top: 40px; }
-        .split-item { display: flex; gap: 25px; margin-bottom: 40px; }
-        .split-item i { font-size: 35px; color: var(--secondary-gold); margin-top: 5px;}
-        .split-item h3 { font-size: 22px; margin-bottom: 10px; letter-spacing: 1px;}
-        .split-item p { color: #555; font-size: 16px; line-height: 1.6; margin: 0;}
+        .split-item { 
+            position: relative;
+            background: #FCFCF9;
+            border: 1px solid rgba(197, 160, 89, 0.2); 
+            padding: 35px 30px; 
+            margin-bottom: 25px; 
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .split-item:hover {
+            border-color: var(--secondary-gold);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.08);
+            transform: translateY(-2px);
+        }
+        .split-item i { 
+            position: absolute;
+            top: 35px;
+            right: 30px;
+            font-size: 24px; 
+            color: var(--secondary-gold);
+            margin: 0;
+        }
+        .split-item .item-text {
+            padding-right: 40px;
+        }
+        .split-item h3 { font-size: 22px; margin-bottom: 10px; letter-spacing: 1px; color: var(--primary-navy);}
+        .split-item p { color: #555; font-size: 15px; line-height: 1.7; margin: 0;}
 
         /* Minimalist Accordion Services (Clickable) */
         .accordion-section { padding: 120px 8%; background-color: #FFF; max-width: 1000px; margin: 0 auto;}
@@ -251,7 +275,9 @@
             /* Expertise (Split Screen) */
             .split-image-col { display: none; }
             .split-content-col { padding: 60px 5%; }
-            .split-item { gap: 15px; }
+            .split-item { padding: 25px 20px; }
+            .split-item i { top: 25px; right: 20px; font-size: 20px; }
+            .split-item .item-text { padding-right: 30px; }
             
             /* Services Accordion */
             .accordion-section { padding: 60px 5%; }
@@ -317,21 +343,21 @@
             <div class="split-list">
                 <div class="split-item">
                     <i class="fa-solid fa-building"></i>
-                    <div>
+                    <div class="item-text">
                         <h3>Corporate / M&A</h3>
                         <p>Comprehensive corporate structuring, mergers, acquisitions, and compliance strategies for modern enterprises.</p>
                     </div>
                 </div>
                 <div class="split-item">
                     <i class="fa-solid fa-landmark"></i>
-                    <div>
+                    <div class="item-text">
                         <h3>Real Estate</h3>
                         <p>Protecting commercial developers and investors through complex transactions and dispute resolution.</p>
                     </div>
                 </div>
                 <div class="split-item">
                     <i class="fa-solid fa-scale-balanced"></i>
-                    <div>
+                    <div class="item-text">
                         <h3>Litigation</h3>
                         <p>Aggressive representation in both commercial and criminal litigation, achieving optimal client outcomes.</p>
                     </div>
